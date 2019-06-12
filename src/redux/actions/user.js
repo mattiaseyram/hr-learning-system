@@ -2,27 +2,26 @@ import { SET_USER } from '../actionTypes';
 
 import { functions } from '../../utils/firebase';
 
-export const retrieveUser = async (user_id) => {
+export const loginUser = (user_id) => async dispatch => {
 
-    console.log('RETRIEVE_USER');
     try {
 
         const result = await functions.httpsCallable('getUser')({user_id});
-        const user = result.data;
+        const user = result.data.user;
 
-        return {
+        dispatch({
             type: SET_USER,
             payload: {
                 user
             }
-        };
+        });
 
     } catch (err) {
         console.error(err);
     }
-    
 };
 
-export default {
-    retrieveUser
-};
+export const logoutUser = () => ({
+    type: SET_USER,
+    payload: {}
+});

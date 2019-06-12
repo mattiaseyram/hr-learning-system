@@ -13,7 +13,8 @@ In the project directory, you can run:
 
 ###`npm run serve` 
 
- - runs npm run build then serves the app and cloud functions in emulator mode locally
+ - runs npm run build then serves the app and cloud functions in emulator mode locally 
+(uncomment line in `/src/utils/firebase.js` first)
 
 ###`npm run deploy`
 
@@ -24,7 +25,7 @@ In the project directory, you can run:
 1. Clone the repository into your projects folder
 2. Run `firebase login` to sign in to the firebase console as a developer
 3. Copy the firebase config JSON object into `/src/utils/firebaseConfig.js`
-4. Copy the Service Accounts info into `hr-learning-system-firebase-adminsdk.json`
+4. Copy the Service Accounts info into `/functions/hr-learning-system-firebase-adminsdk.json`
 
 
 

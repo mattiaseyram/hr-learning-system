@@ -1,19 +1,38 @@
 //react
 import React, { Fragment } from 'react';
+//router
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 //redux
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from './redux/selectors';
-import { retrieveUser } from './redux/actions/user';
+import { loginUser, logoutUser } from './redux/actions/user';
 
 export default function App() {
 
-  const user = useSelector(state => state.counter);
+  const dispatch = useDispatch();
 
-  retrieveUser('Bo9WaWSt65ariYM9ESI7');
+  const user = useSelector(getUser);
 
+  const handleLogin = () => dispatch(loginUser('Bo9WaWSt65ariYM9ESI7'));
+  const handleLogout = () => dispatch(logoutUser());
+
+  console.log(user)
   return (
     <div>
-      hehehe
+      <Router>
+        {user
+          ? (
+            <Fragment>
+              <button onClick={handleLogout}>logout</button>
+              {user.first_name}
+            </Fragment>
+          )
+          : (
+            <Fragment>
+              <button onClick={handleLogin}>login</button>
+            </Fragment>
+          )}
+      </Router>
     </div>
   );
 };
