@@ -1,38 +1,40 @@
 //react
 import React, { Fragment } from 'react';
 //router
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 //redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getUser } from './redux/selectors';
-import { loginUser, logoutUser } from './redux/actions/user';
+import { } from './redux/actions';
+//pages
+import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
+//components
+import PageNavbar from './components/PageNavbar';
 
 export default function App() {
 
-  const dispatch = useDispatch();
+    const user = useSelector(getUser);
 
-  const user = useSelector(getUser);
-
-  const handleLogin = () => dispatch(loginUser('Bo9WaWSt65ariYM9ESI7'));
-  const handleLogout = () => dispatch(logoutUser());
-
-  console.log(user)
-  return (
-    <div>
-      <Router>
-        {user
-          ? (
-            <Fragment>
-              <button onClick={handleLogout}>logout</button>
-              {user.first_name}
-            </Fragment>
-          )
-          : (
-            <Fragment>
-              <button onClick={handleLogin}>login</button>
-            </Fragment>
-          )}
-      </Router>
-    </div>
-  );
+    return (
+        <div>
+            <Router>
+                {user &&
+                    <PageNavbar />
+                }
+                {!user
+                    ? (
+                        <Fragment>
+                            <Route path="/" component={LoginPage} />
+                        </Fragment>
+                    )
+                    : (
+                        <Fragment>
+                            <Route path="/" component={HomePage} />
+                        </Fragment>
+                    )
+                }
+            </Router>
+        </div>
+    );
 };

@@ -9,19 +9,19 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-//retrieve user from db with given user_id
-exports.getUser = functions.https.onCall(async (data, context) => {
+//retrieve user from db with given username
+exports.getUserByUsername = functions.https.onCall(async (data, context) => {
 
-    const { user_id } = data;
+    const { username } = data;
 
     try {
 
-        const result = await db.collection('users').doc(user_id).get();
-        const user = result.data();
+        const querySnapshot = await db.collection('users').where('username', '==', username).limit(1).get();
+        const user = querySnapshot.docs[0].data();
 
         return { user };
 
-    } catch (err) {
+    } catch (err) { 
         throw new functions.https.HttpsError('unknown', 'Something went wrong calling getUser: ' + err.message);
     }
 
