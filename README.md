@@ -3,20 +3,28 @@
 ## Scripts
 In the project directory, you can run:
 
-`npm start` runs the app in development mode at <http://localhost:3000>
+###`npm start`
 
-`npm run build` builds the production app in the `build` folder
+- runs the app in development mode at <http://localhost:3000>
 
-`npm run deploy` runs npm run build then deploys all code to Firebase
+###`npm run build` 
+
+- builds the production app in the `build` folder
+
+###`npm run serve` 
+
+ - runs npm run build then serves the app and cloud functions in emulator mode locally
+
+###`npm run deploy`
+
+- runs npm run build then deploys all code to Firebase
 
 ## Setup
 
 1. Clone the repository into your projects folder
-2. Run `firebase login` to sign in to the app
-3. Copy the firebase config JSON object into /src/utils/firebaseConfig.js
-4. 
-
-
+2. Run `firebase login` to sign in to the firebase console as a developer
+3. Copy the firebase config JSON object into `/src/utils/firebaseConfig.js`
+4. Copy the Service Accounts info into `hr-learning-system-firebase-adminsdk.json`
 
 
 
