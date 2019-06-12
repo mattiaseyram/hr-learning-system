@@ -11,10 +11,10 @@ In the project directory, you can run:
 
 - builds the production app in the `build` folder
 
-### `npm run serve` 
+### `npm run functions` 
 
- - runs npm run build then serves the app and cloud functions in emulator mode locally 
-(uncomment line in `/src/utils/firebase.js` first)
+ - runs the cloud functions in emulator mode locally with hot reloading
+(uncomment line in `/src/utils/firebase.js` first to connect the local react app)
 
 ### `npm run deploy`
 
@@ -27,6 +27,18 @@ In the project directory, you can run:
 3. Copy the firebase config JSON object into `/src/utils/firebaseConfig.js`
 4. Copy the Service Accounts info into `/functions/hr-learning-system-firebase-adminsdk.json`
 
+## Development
+
+### Local React Development connected to Hosted Cloud Functions
+
+- `npm run start`
+
+
+### Local React Development connected to Local Emulated Cloud Functions
+
+- `npm run functions`
+- uncomment line in `/src/utils/firebase.js`
+- `npm start` in separate terminal
 
 
 

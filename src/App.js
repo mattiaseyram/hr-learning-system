@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 //components
 import PageNavbar from './components/PageNavbar';
+import InfoModal from './components/InfoModal';
 
 export default function App() {
 
@@ -19,6 +20,7 @@ export default function App() {
     return (
         <div>
             <Router>
+                <InfoModal/>
                 {user &&
                     <PageNavbar />
                 }

@@ -19,11 +19,17 @@ export default function LoginPage() {
 
     const handleLogin = () => dispatch(loginUser(username));
 
+    const handleSubmit = (event) => {
+        handleLogin();
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
     return (
         <Fragment>
             <Modal.Dialog>
                 <Modal.Body>
-                    <Form>
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Username</Form.Label>
                             <Form.Control type="text"
@@ -34,7 +40,7 @@ export default function LoginPage() {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handleLogin}>Login</Button>
+                    <Button variant="primary" type="submit" onClick={handleLogin}>Login</Button>
                 </Modal.Footer>
             </Modal.Dialog>
         </Fragment>

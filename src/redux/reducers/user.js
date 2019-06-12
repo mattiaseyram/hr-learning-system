@@ -8,7 +8,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER: {
-      const { user = null } = action.payload;
+      const { user = null } = action;
       return {
         ...state,
         user

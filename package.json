@@ -21,7 +21,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve": "npm run build && firebase serve",
+    "functions": "firebase serve --only functions",
     "deploy": "npm run build && firebase deploy"
   },
   "eslintConfig": {

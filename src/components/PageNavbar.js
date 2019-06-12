@@ -1,7 +1,7 @@
 //react
 import React, { Fragment } from 'react';
 //router
-import { } from "react-router-dom";
+import { Link } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../redux/selectors';
@@ -22,7 +22,7 @@ export default function PageNavbar() {
     return (
         <Fragment>
             <Navbar bg="dark" className="justify-content-between" variant="dark">
-                <Brand href="#home">
+                <Brand as={Link} to="/">
                     {`HR Learning System: ${user.first_name}`}
                 </Brand>
                 <Form inline>
