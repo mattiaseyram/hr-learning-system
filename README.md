@@ -1,19 +1,33 @@
 # HR-LEARNING-SYSTEM
 
+## Scripts
 In the project directory, you can run:
 
-`npm start`
+`npm start` runs the app in development mode at <http://localhost:3000>
 
-`npm run build`
+`npm run build` builds the production app in the `build` folder
 
-`npm run deploy`
+`npm run deploy` runs npm run build then deploys all code to Firebase
+
+## Setup
+
+1. Clone the repository into your projects folder
+2. Run `firebase login` to sign in to the app
+3. Copy the firebase config JSON object into /src/utils/firebaseConfig.js
+4. 
 
 
-# Default CRA readme
+
+
+
+
+<br><br><br><br><br><br>
+
+## Default CRA Documentation
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+### Available Scripts
 
 In the project directory, you can run:
 

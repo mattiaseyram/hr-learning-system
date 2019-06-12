@@ -1,23 +1,22 @@
 import { SET_USER } from '../actionTypes';
 
 const initialState = {
-    first_name: '',
-    last_name: ''
+  user: null,
+  users: []
 };
 
 const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case SET_USER: {
-          const { user } = action.payload;
-          return {
-            ...state,
-            first_name: user.first_name,
-            last_name: user.last_name
-          };
-        }
-        default:
-            return state;
-    };
+  switch (action.type) {
+    case SET_USER: {
+      const { user = null } = action.payload;
+      return {
+        ...state,
+        user
+      };
+    }
+    default:
+      return state;
+  };
 };
 
 export default reducer;

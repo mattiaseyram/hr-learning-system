@@ -1,12 +1,9 @@
-import firebase from 'firebase';
 import config from './firebaseConfig';
+import firebase from 'firebase/app';
+import 'firebase/functions';
 
-firebase.initializeApp(config);
+const app = firebase.initializeApp(config);
+app.functions().useFunctionsEmulator('http://localhost:5001');
 
-export default firebase;
-
-export const database = firebase.database();
-export const auth = firebase.auth();
-export const storage = firebase.storage();
-export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-export const messaging = firebase.messaging();
+export default app;
+export const functions = app.functions();
