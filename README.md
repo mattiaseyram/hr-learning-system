@@ -3,20 +3,20 @@
 ## Scripts
 In the project directory, you can run:
 
-###`npm start`
+### `npm start`
 
 - runs the app in development mode at <http://localhost:3000>
 
-###`npm run build` 
+### `npm run build` 
 
 - builds the production app in the `build` folder
 
-###`npm run serve` 
+### `npm run serve` 
 
  - runs npm run build then serves the app and cloud functions in emulator mode locally 
 (uncomment line in `/src/utils/firebase.js` first)
 
-###`npm run deploy`
+### `npm run deploy`
 
 - runs npm run build then deploys all code to Firebase
 
