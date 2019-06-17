@@ -14,7 +14,7 @@ In the project directory, you can run:
 ### `npm run functions` 
 
  - runs the cloud functions in emulator mode locally with hot reloading
-(uncomment line in `/src/utils/firebase.js` first to connect the local react app)
+(set `local = true` in `/src/utils/firebase.js` first to connect the local React app)
 
 ### `npm run deploy`
 
@@ -25,7 +25,7 @@ In the project directory, you can run:
 1. Clone the repository into your projects folder
 2. Run `firebase login` to sign in to the firebase console as a developer
 3. Copy the firebase config JSON object into `/src/utils/firebaseConfig.js`
-4. Copy the Service Accounts info into `/functions/hr-learning-system-firebase-adminsdk.json`
+4. Copy the Service Accounts info for Firebase Admin SDK into a new file `/functions/hr-learning-system-firebase-adminsdk.json`
 
 ## Development
 
@@ -37,10 +37,8 @@ In the project directory, you can run:
 ### Local React Development connected to Local Emulated Cloud Functions
 
 - `npm run functions`
-- uncomment line in `/src/utils/firebase.js`
+- set `local = true` in `/src/utils/firebase.js`
 - `npm start` in separate terminal
-
-
 
 <br><br><br><br><br><br>
 

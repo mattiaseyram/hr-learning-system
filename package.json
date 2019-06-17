@@ -21,8 +21,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "functions": "firebase serve --only functions",
-    "deploy": "npm run build && firebase deploy"
+    "setCred": "export GOOGLE_APPLICATION_CREDENTIALS=\"hr-learning-system-firebase-adminsdk.json\"",
+    "unsetCred": "unset GOOGLE_APPLICATION_CREDENTIALS",
+    "functions": "npm run setCred && firebase serve --only functions",
+    "deploy": "npm run unsetCred && npm run build && firebase deploy",
+    "travisDeploy": "npm run build && firebase deploy --token $FIREBASE_TOKEN --non-interactive"
   },
   "eslintConfig": {
     "extends": "react-app"
