@@ -12,7 +12,7 @@ exports.getUserByUsername = functions.https.onCall(async (data, context) => {
 
     try {
 
-        const querySnapshot = await db.collection('users').where('username', '==', username).limit(1).get();
+        const querySnapshot = await db.collection('users').where('username', '==', username.toLowerCase()).limit(1).get();
         const user = querySnapshot.docs[0].data();
 
         return { user };
