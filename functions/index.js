@@ -8,16 +8,16 @@ const db = admin.firestore();
 //retrieve user from db with given username
 exports.getUserByUsername = functions.https.onCall(async (data, context) => {
 
-    const { username } = data;
-
     try {
 
-        const querySnapshot = await db.collection('users').where('username', '==', username.toLowerCase()).limit(1).get();
+        const username = data.username.toLowerCase();
+
+        const querySnapshot = await db.collection('users').where('username', '==', username).limit(1).get();
         const user = querySnapshot.docs[0].data();
 
         return { user };
 
-    } catch (err) { 
+    } catch (err) {
         throw new functions.https.HttpsError('unknown', 'Something went wrong calling getUser: ' + err.message);
     }
 
