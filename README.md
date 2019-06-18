@@ -40,6 +40,18 @@ In the project directory, you can run:
 - set `local = true` in `/src/utils/firebase.js`
 - `npm start` in separate terminal
 
+## Folder Overview
+
+### `/src`
+
+* Contains the React codebase initialized from Create-React-App
+* Using root folder `/public`, builds with Webpack to root folder `/build` which is deployed to Firebase
+
+### `/functions`
+
+* Contains the Firebase Google Cloud Functions codebase
+* Has a separate set of `/node_modules` and `package.json` file from React
+
 <br><br><br><br><br><br>
 
 ## Default CRA Documentation
