@@ -23,6 +23,7 @@ export default function PageNavbar() {
 
     //dispatch (from useDispatch()) is a function we use to connect an action to the redux store
     const dispatch = useDispatch();
+    
     //handleLogout wraps the logoutUser() function from actions in dispatch
     const handleLogout = () => dispatch(logoutUser());
 
