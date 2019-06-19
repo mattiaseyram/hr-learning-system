@@ -25,14 +25,15 @@ In the project directory, you can run:
 1. Clone the repository into your projects folder
 2. Run `firebase login` to sign in to the firebase console as a developer
 3. Copy the firebase config JSON object into `/src/utils/firebaseConfig.js`
-4. Copy the Service Accounts info for Firebase Admin SDK into a new file `/functions/hr-learning-system-firebase-adminsdk.json`
+4. Copy the Service Account JSON key into `./serviceAccountKey.json` then copy the absolute path to this file and run `export GOOGLE_APPLICATION_CREDENTIALS="[PATH]"` 
+
+eg. `export GOOGLE_APPLICATION_CREDENTIALS="/Users/mattiaseyram/projects/hr-learning-system/serviceAccountKey.json"`
 
 ## Development
 
 ### Local React Development connected to Hosted Cloud Functions
 
 - `npm run start`
-
 
 ### Local React Development connected to Local Emulated Cloud Functions
 
