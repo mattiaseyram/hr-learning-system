@@ -1,5 +1,5 @@
 //react
-import React, { Fragment } from 'react';
+import React from 'react';
 //router
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 //redux
