@@ -1,7 +1,7 @@
 //react
 import React, { Fragment, useState } from 'react';
 //router
-import { } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 //redux
 import { useDispatch } from 'react-redux';
 import { } from '../redux/selectors';
@@ -30,7 +30,7 @@ export default function LoginPage() {
             <Modal.Dialog>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formBasicEmail">
+                        <Form.Group>
                             <Form.Label>Username</Form.Label>
                             <Form.Control type="text"
                                 placeholder="Enter username"
@@ -41,6 +41,9 @@ export default function LoginPage() {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" type="submit" onClick={handleLogin}>Login</Button>
+                    <NavLink to="/signup">
+                        <Button variant="success">Sign Up</Button>
+                    </NavLink>
                 </Modal.Footer>
             </Modal.Dialog>
         </Fragment>

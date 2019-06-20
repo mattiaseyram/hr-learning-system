@@ -1,7 +1,7 @@
 //react
 import React, { Fragment } from 'react';
 //router
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../redux/selectors';
@@ -23,7 +23,7 @@ export default function PageNavbar() {
 
     //dispatch (from useDispatch()) is a function we use to connect an action to the redux store
     const dispatch = useDispatch();
-    
+
     //handleLogout wraps the logoutUser() function from actions in dispatch
     const handleLogout = () => dispatch(logoutUser());
 
@@ -31,11 +31,14 @@ export default function PageNavbar() {
     return (
         <Fragment>
             <Navbar bg="dark" className="justify-content-between" variant="dark">
-                <Brand as={Link} to="/">
+                <Brand as={NavLink} to="/">
                     {`HR Learning System: ${user.first_name}`}
                 </Brand>
                 <Form inline>
-                    <Button onClick={handleLogout}>Logout</Button>
+                    <NavLink to="/profile">
+                        <Button variant="primary">Profile</Button>
+                    </NavLink>
+                    <Button variant="secondary" onClick={handleLogout}>Logout</Button>
                 </Form>
             </Navbar>
         </Fragment>
