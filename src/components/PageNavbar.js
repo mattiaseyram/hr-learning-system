@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../redux/selectors';
 import { logoutUser } from '../redux/actions';
 //react-bootstrap
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar, { Brand } from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -34,9 +36,15 @@ export default function PageNavbar() {
                 <Brand as={NavLink} to="/">
                     {`HR Learning System: ${user.first_name}`}
                 </Brand>
+                <Nav className="mr-auto">
+                    <NavDropdown title="Actions">
+                        <NavDropdown.Item>Create</NavDropdown.Item>
+                        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                    </NavDropdown>
+                </Nav>
                 <Form inline>
                     <NavLink to="/profile">
-                        <Button variant="primary">Profile</Button>
+                        <Button variant="primary" className="mr-sm-2">Profile</Button>
                     </NavLink>
                     <Button variant="secondary" onClick={handleLogout}>Logout</Button>
                 </Form>

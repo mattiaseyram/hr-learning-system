@@ -1,28 +1,20 @@
 import { SET_USER } from '../actionTypes';
 import { setLoading, setWarning } from './ui';
-import { functions } from '../../utils/firebase';
+import { db, auth } from '../../utils/firebase';
 
 /**
- * calls the cloud function to login the user
- * @param {*} username 
+ * Logs in the user with the given email and password
+ * @param {*} email 
+ * @param {*} password 
  */
-export const loginUser = (username) => async dispatch => {
+export const loginUser = (email, password) => async dispatch => {
 
     dispatch(setLoading(true));
 
     try {
 
-        const result = await functions.httpsCallable('getUserByUsername')({ username });
+        await auth.signInWithEmailAndPassword(email, password);
 
-        const user = result.data.user;
-        const userId = result.data.userId;
-
-        dispatch({
-            type: SET_USER,
-            user,
-            userId
-        });
-        
     } catch (err) {
         console.error(err);
         dispatch(setWarning('Something went wrong signing in, please try again.'));
@@ -32,96 +24,137 @@ export const loginUser = (username) => async dispatch => {
 };
 
 /**
- * Calls the cloud function to create the given user
- * @param {*} user 
+ * Creates a listener to the current user's data the database
  */
-export const createUser = (user) => async dispatch => {
+export const fetchUser = () => dispatch => {
+
+    try {
+
+        const unsubscribe = auth.onAuthStateChanged(user => {
+
+            dispatch(setLoading(true));
+
+            if (user) {
+
+                db.collection('users').doc(user.uid).onSnapshot(doc => {
+                    dispatch({
+                        type: SET_USER,
+                        user: doc.data()
+                    });
+                });
+
+            } else {
+
+                dispatch({
+                    type: SET_USER
+                });
+            }
+
+            dispatch(setLoading(false));
+
+        });
+
+        return unsubscribe;
+
+    } catch (err) {
+        console.error(err);
+        dispatch(setWarning('Something went wrong fetching account, please try again.'));
+    }
+
+};
+
+/**
+ * Creates a new user with the given userData (which must contain keys username and password)
+ * @param {*} userData 
+ */
+export const createUser = (userData) => async dispatch => {
 
     dispatch(setLoading(true));
 
     try {
 
-        const result = await functions.httpsCallable('createUser')({ user });
+        const email = userData.email;
+        const password = userData.password;
+        delete userData.email;
+        delete userData.password;
 
-        const retUser = result.data.user;
-        const userId = result.data.userId;
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
 
-        dispatch({
-            type: SET_USER,
-            user: retUser,
-            userId
-        });
-        
+        await db.collection('users').doc(user.uid).set(userData);
+
     } catch (err) {
         console.error(err);
-        dispatch(setWarning('Something went wrong creating user, please try again.'));
+        dispatch(setWarning('Something went wrong creating account, please try again.'));
     }
 
     dispatch(setLoading(false));
 };
 
 /**
- * Calls the cloud function to update the given user by id
- * @param {*} user 
- * @param {*} userId 
+ * Creates a new user with the given userData
+ * @param {*} userData 
  */
-export const updateUser = (user, userId) => async dispatch => {
+export const updateUser = (userData) => async dispatch => {
 
     dispatch(setLoading(true));
 
     try {
 
-        const result = await functions.httpsCallable('updateUser')({ user, userId });
+        const user = auth.currentUser;
 
-        const retUser = result.data.user;
-        const retUserId = result.data.userId;
+        await db.collection('users').doc(user.uid).update({ ...userData });
 
-        dispatch({
-            type: SET_USER,
-            user: retUser,
-            userId: retUserId
-        });
-        
     } catch (err) {
         console.error(err);
-        dispatch(setWarning('Something went wrong creating user, please try again.'));
+        dispatch(setWarning('Something went wrong updating account, please try again.'));
     }
 
     dispatch(setLoading(false));
 };
 
 /**
- * Calls the cloud function to delete the user by id
- * @param {*} userId 
+ * Deletes the current user
  */
-export const deleteUser = (userId) => async dispatch => {
+export const deleteUser = () => async dispatch => {
 
     dispatch(setLoading(true));
 
     try {
 
-        const result = await functions.httpsCallable('deleteUser')({ userId });
+        const user = auth.currentUser;
 
-        const retUser = result.data.user;
-        const retUserId = result.data.userId;
+        await db.collection('users').doc(user.uid).delete();
 
-        dispatch({
-            type: SET_USER,
-            user: retUser,
-            userId: retUserId
-        });
-        
+        await user.delete();
+
     } catch (err) {
         console.error(err);
-        dispatch(setWarning('Something went wrong creating user, please try again.'));
+        dispatch(setWarning('Something went wrong deleting account, please try again.'));
     }
 
     dispatch(setLoading(false));
 };
 
 /**
- * Wipes local user state
+ * Logs out the current user
  */
-export const logoutUser = () => ({
-    type: SET_USER
-});
+export const logoutUser = () => async dispatch => {
+
+    dispatch(setLoading(true));
+
+    try {
+
+        await auth.signOut();
+
+        dispatch({
+            type: SET_USER
+        });
+
+    } catch (err) {
+        console.error(err);
+        dispatch(setWarning('Something went wrong signing out, please try again.'));
+    }
+
+    dispatch(setLoading(false));
+};

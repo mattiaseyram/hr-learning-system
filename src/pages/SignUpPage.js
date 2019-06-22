@@ -11,14 +11,18 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-export default function CreateUserPage() {
+export default function SignUpPage() {
 
     const dispatch = useDispatch();
 
     const [userState, setUserState] = useState({
-        username: '',
         first_name: '',
-        last_name: ''
+        last_name: '',
+        email: '',
+        password: '',
+        role: '',
+        manages: [],
+        courses: {}
     });
 
     const handleCreateUser = () => dispatch(createUser(userState));
@@ -35,25 +39,30 @@ export default function CreateUserPage() {
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>Username</Form.Label>
+                            <Form.Label>Email</Form.Label>
                             <Form.Control type="text"
-                                placeholder="Enter username"
+                                value={userState.email}
+                                onChange={event => setUserState({ ...userState, email: event.target.value })} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="password"
                                 value={userState.username}
-                                onChange={event => setUserState({...userState, username: event.target.value})} />
+                                onChange={event => setUserState({ ...userState, password: event.target.value })} />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>First Name</Form.Label>
                             <Form.Control type="text"
                                 placeholder="Enter first name"
                                 value={userState.first_name}
-                                onChange={event => setUserState({...userState, first_name: event.target.value})} />
+                                onChange={event => setUserState({ ...userState, first_name: event.target.value })} />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Last Name</Form.Label>
                             <Form.Control type="text"
                                 placeholder="Enter last name"
                                 value={userState.last_name}
-                                onChange={event => setUserState({...userState, last_name: event.target.value})} />
+                                onChange={event => setUserState({ ...userState, last_name: event.target.value })} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>

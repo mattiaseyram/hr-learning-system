@@ -1,7 +1,7 @@
 import { SET_LOADING, SET_WARNING } from '../actionTypes';
 
 const initialState = {
-    loading: false,
+    loading: true,
     warning: ''
 };
 

@@ -1,6 +1,8 @@
 import config from './firebaseConfig';
-import firebase from 'firebase/app';
+import firebase from 'firebase';
 import 'firebase/functions';
+import 'firebase/firestore';
+import 'firebase/auth';
 
 const local = false;
 const app = firebase.initializeApp(config);
@@ -10,3 +12,5 @@ if (local)
 
 export default app;
 export const functions = app.functions();
+export const db = app.firestore();
+export const auth = app.auth();

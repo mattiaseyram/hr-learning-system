@@ -1,19 +1,16 @@
 import { SET_USER } from '../actionTypes';
 
 const initialState = {
-  user: null,
-  userId: null,
-  users: []
+  user: null
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER: {
-      const { user = null, userId = null } = action;
+      const { user = null } = action;
       return {
         ...state,
-        user,
-        userId
+        user
       };
     }
     default:
