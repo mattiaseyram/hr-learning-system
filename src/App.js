@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage'; 
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
+import CreateCoursePage from './pages/CreateCoursePage';
 //components
 import PageNavbar from './components/PageNavbar';
 import InfoModal from './components/InfoModal';
@@ -34,6 +35,7 @@ export default function App() {
                     {!user && <Route exact path="/signup" component={SignUpPage} />}
                     {user && <Route exact path="/" component={HomePage} />}
                     {user && <Route exact path="/profile" component={ProfilePage} />}
+                    {user && <Route exact path="/createcourse" component={CreateCoursePage} />}
                     <Redirect from="/" to="/" />
                 </Switch>
             </Router>

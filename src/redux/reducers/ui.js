@@ -1,8 +1,9 @@
-import { SET_LOADING, SET_WARNING } from '../actionTypes';
+import { SET_LOADING, SET_WARNING, SET_TITLE } from '../actionTypes';
 
 const initialState = {
     loading: true,
-    warning: ''
+    warning: '',
+    title: 'HR Learning System'
 };
 
 const reducer = (state = initialState, action) => {
@@ -19,6 +20,13 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 warning: String(warning)
+            };
+        }
+        case SET_TITLE: {
+            const { title = 'HR Learning System' } = action;
+            return {
+                ...state,
+                title: String(title)
             };
         }
         default:

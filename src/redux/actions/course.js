@@ -1,6 +1,6 @@
 import { SET_COURSE } from '../actionTypes';
 import { setLoading, setWarning } from './ui';
-import { db } from '../../utils/firebase';
+import { db, auth } from '../../utils/firebase';
 
 /**
  * Creates course in the db

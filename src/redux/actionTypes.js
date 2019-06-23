@@ -4,6 +4,7 @@ export const SET_USER = 'SET_USER';
 //ui
 export const SET_LOADING = 'SET_LOADING';
 export const SET_WARNING = 'SET_WARNING';
+export const SET_TITLE = 'SET_TITLE';
 
 //course
 export const SET_COURSE = 'SET_COURSE';

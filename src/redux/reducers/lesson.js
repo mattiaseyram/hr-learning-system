@@ -17,12 +17,12 @@ const reducer = (state = initialState, action) => {
       };
     }
     case SET_LESSONS: {
-        const { lessons = [] } = action;
-        return {
-          ...state,
-          lessons
-        };
-      }
+      const { lessons = [] } = action;
+      return {
+        ...state,
+        lessons
+      };
+    }
     default:
       return state;
   };
