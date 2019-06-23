@@ -5,12 +5,11 @@ import { } from "react-router-dom";
 //redux
 import { useDispatch } from 'react-redux';
 import { } from '../redux/selectors';
-import { } from '../redux/actions';
+import { createCourse } from '../redux/actions';
 //react-bootstrap
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { createCourse } from '../redux/actions';
 //components
 import Page from '../components/Page';
 

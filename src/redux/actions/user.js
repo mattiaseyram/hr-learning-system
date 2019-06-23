@@ -1,6 +1,7 @@
 import { SET_USER } from '../actionTypes';
-import { setLoading, setWarning } from './ui';
 import { db, auth } from '../../utils/firebase';
+import { setLoading, setWarning } from './ui';
+import { fetchCourses } from './course';
 
 /**
  * Logs in the user with the given email and password
@@ -37,10 +38,13 @@ export const fetchUser = () => dispatch => {
             if (user) {
 
                 db.collection('users').doc(user.uid).onSnapshot(doc => {
+                    
                     dispatch({
                         type: SET_USER,
                         user: doc.data()
                     });
+
+                    dispatch(fetchCourses());
                 });
 
             } else {
