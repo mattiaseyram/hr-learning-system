@@ -4,22 +4,22 @@ import React, { Fragment } from 'react';
 import { Link } from "react-router-dom";
 //redux
 import { useSelector } from 'react-redux';
-import { getCourses } from '../redux/selectors';
+import { getLessons } from '../redux/selectors';
 import { } from '../redux/actions';
 //react-bootstrap
 import ListGroup from 'react-bootstrap/ListGroup';
 
-export default function CoursesView() {
+export default function LessonsView() {
 
-    const courses = useSelector(getCourses);
+    const lessons = useSelector(getLessons);
 
-    const courseItems = Object.keys(courses).map((key, i) => {
+    const lessonItems = Object.keys(lessons).map((key, i) => {
 
-        const course = courses[key];
+        const lesson = lessons[key];
 
         return (
-            <ListGroup.Item action as={Link} to={`/courses/${key}`} key={i}>
-                {course.title}
+            <ListGroup.Item action as={Link} to={`/lessons/${key}`} key={i}>
+                {lesson.title}
             </ListGroup.Item>
         );
     });
@@ -27,7 +27,7 @@ export default function CoursesView() {
     return (
         <Fragment>
             <ListGroup>
-                { courseItems }
+                { lessonItems }
             </ListGroup>
         </Fragment>
     );
