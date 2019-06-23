@@ -172,7 +172,7 @@ export const addCoursesToUser = (userIdToAdd,courseIds) => async dispatch => {
         const user = auth.currentUser;
         const userId = userIdToAdd ? userIdToAdd : user.uid;
 
-        const result = await functions.httpsCallable('addCoursesToUser')({ userId, courseIds });
+        await functions.httpsCallable('addCoursesToUser')({ userId, courseIds });
 
     } catch (err) {
         console.error(err);
