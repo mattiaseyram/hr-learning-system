@@ -15,7 +15,7 @@ try {
 const db = admin.firestore();
 
 /**
- * data should be a json object  { user: id , courses: [courseIds] } 
+ * data should be a json object  { userId: id , courseIds: [courseIds] } 
  * 
  * 
  */
@@ -67,3 +67,4 @@ exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
     }
 
 });
+
