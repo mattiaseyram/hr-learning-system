@@ -25,9 +25,6 @@ In the project directory, you can run:
 1. Clone the repository into your projects folder
 2. Run `firebase login` to sign in to the firebase console as a developer
 3. Copy the Service Account JSON key into `./serviceAccountKey.json`
-4. Copy the absolute path to `./serviceAccountKey.json` file and run `export GOOGLE_APPLICATION_CREDENTIALS="[PATH]"` 
-
-eg. `export GOOGLE_APPLICATION_CREDENTIALS="/Users/mattiaseyram/projects/hr-learning-system/serviceAccountKey.json"`
 
 ## Development
 

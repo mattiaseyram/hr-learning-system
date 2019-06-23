@@ -15,9 +15,10 @@ export default function LoginPage() {
 
     const dispatch = useDispatch();
 
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const handleLogin = () => dispatch(loginUser(username));
+    const handleLogin = () => dispatch(loginUser(email, password));
 
     const handleSubmit = (event) => {
         handleLogin();
@@ -31,11 +32,17 @@ export default function LoginPage() {
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>Username</Form.Label>
+                            <Form.Label>Email</Form.Label>
                             <Form.Control type="text"
-                                placeholder="Enter username"
-                                value={username}
-                                onChange={event => setUsername(event.target.value)} />
+                                placeholder="Enter email"
+                                value={email}
+                                onChange={event => setEmail(event.target.value)} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="password"
+                                value={password}
+                                onChange={event => setPassword(event.target.value)} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>

@@ -21,7 +21,7 @@ export default function ProfilePage() {
     //initialize userState to redux store's user
     const [userState, setUserState] = useState(user);
 
-    const handleUpdateUser = () => dispatch(updateUser(userState, userId));
+    const handleUpdateUser = () => dispatch(updateUser(userState));
     const handleDeleteUser = () => dispatch(deleteUser(userId));
 
     const handleSubmit = (event) => {
@@ -36,25 +36,18 @@ export default function ProfilePage() {
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>Username</Form.Label>
-                            <Form.Control type="text"
-                                placeholder="Enter username"
-                                value={userState.username}
-                                onChange={event => setUserState({...userState, username: event.target.value})} />
-                        </Form.Group>
-                        <Form.Group>
                             <Form.Label>First Name</Form.Label>
                             <Form.Control type="text"
                                 placeholder="Enter first name"
                                 value={userState.first_name}
-                                onChange={event => setUserState({...userState, first_name: event.target.value})} />
+                                onChange={event => setUserState({ ...userState, first_name: event.target.value })} />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Last Name</Form.Label>
                             <Form.Control type="text"
                                 placeholder="Enter last name"
                                 value={userState.last_name}
-                                onChange={event => setUserState({...userState, last_name: event.target.value})} />
+                                onChange={event => setUserState({ ...userState, last_name: event.target.value })} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
