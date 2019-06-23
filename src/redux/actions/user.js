@@ -1,5 +1,5 @@
 import { SET_USER } from '../actionTypes';
-import { db, auth } from '../../utils/firebase';
+import { functions, db, auth } from '../../utils/firebase';
 import { setLoading, setWarning } from './ui';
 import { fetchCourses } from './course';
 
