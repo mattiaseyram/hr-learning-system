@@ -181,3 +181,36 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
 
 });
 
+/**
+ * data should be a json object  { userId: id }  
+ * 
+ * 
+ */
+
+exports.getSubordinates= functions.https.onCall(async (data, context) => {
+
+    try {
+        
+        const { userId } = data;
+        
+        const userSnapshot = await db.collection('users').doc(userId).get();
+
+        const allUsersSnapshot = await db.collection('users').get();
+
+        let user = userSnapshot.data();
+        console.log("user manages", user.manages);
+        var subordinates = {}; 
+        allUsersSnapshot.forEach(doc => {
+            if(user.manages.includes(doc.id)){
+                subordinates[doc.id] = doc.data();
+            }
+        });
+
+
+        return { subordinates }    
+
+    } catch (err) {
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling getSubordinates: ' + err.message);
+    }
+
+});
