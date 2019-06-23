@@ -15,7 +15,7 @@ try {
 const db = admin.firestore();
 
 /**
- * data should be a json object  { user: id , courses: [courseIds] } 
+ * data should be a json object  { userId: id , courseIds: [courseIds] } 
  * 
  * 
  */
@@ -67,3 +67,72 @@ exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
     }
 
 });
+
+/**
+ * data should be a json object  { userId: id } 
+ * 
+ * 
+ */
+exports.getCourseCatalog = functions.https.onCall(async (data, context) => {
+
+    try {
+        
+        const { userId } = data;
+        
+        const userSnapshot = await db.collection('users').doc(userId).get();
+
+        let user = userSnapshot.data();
+
+        const coursesSnapshot = await db.collection('courses').get();
+ 
+        let courses = {};
+
+        coursesSnapshot.forEach(doc => {
+
+            if (doc.id in user.courses) {
+                courses[doc.id] = doc.data();
+            }
+        })
+
+        return { courses };
+
+    } catch (err) {
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling addCourseToUser: ' + err.message);
+    }
+
+});
+
+/**
+ * data should be a json object  { courseId: id } 
+ * 
+ * 
+ */
+exports.getLessonsByCourseId = functions.https.onCall(async (data, context) => {
+
+    try {
+        
+        const { courseId } = data;
+        
+        const courseSnapshot = await db.collection('courses').doc(courseId).get();
+
+        let course = courseSnapshot.data();
+
+        const lessonsSnapshot = await db.collection('lessons').get();
+ 
+        let lessons = {};
+
+        lessonsSnapshot.forEach(doc => {
+
+            if (course.lessons.includes(doc.id)) {
+                lessons[doc.id] = doc.data();
+            }
+        })
+
+        return { lessons };
+
+    } catch (err) {
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling addCourseToUser: ' + err.message);
+    }
+
+});
+
