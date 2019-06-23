@@ -131,3 +131,54 @@ exports.getLessonsByCourseId = functions.https.onCall(async (data, context) => {
 
 });
 
+/**
+ * data should be a json object  { userId: id, lessonId: id, courseId: id} 
+ * 
+ * 
+ */
+
+exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
+
+    try {
+        
+        const { userId, lessonId, courseId } = data;
+        var score = 0; 
+        var completed = false;
+        const userSnapshot = await db.collection('users').doc(userId).get();
+
+        const lessonSnapshot = await db.collection('lessons').doc(lessonId).get();
+
+        let user = userSnapshot.data();
+
+        //Actual answers
+        let quiz = lessonSnapshot.data().questions;
+
+        //Lesson attempt from user 
+        let lessonAttempt = user.courses[courseId].lessons[lessonId].answers;
+
+        //Want to check if each lessonAttempt 
+  
+        for(let i = 0; i < lessonAttempt.length; i++){
+
+            if(quiz[i].answer == lessonAttempt[i]){
+                score+=1;
+            }
+        }
+        if(score == lessonAttempt.length){
+            completed = true;
+        }
+
+        //Update user with the score 
+        user.courses[courseId].lessons[lessonId].total= score;
+        user.courses[courseId].lessons[lessonId].complete = completed;
+
+        await db.collection('users').doc(userId).update({ ...user });
+
+        return { user }
+
+    } catch (err) {
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling addCourseToUser: ' + err.message);
+    }
+
+});
+
