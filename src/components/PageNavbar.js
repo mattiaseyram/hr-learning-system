@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import { NavLink } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, getTitle } from '../redux/selectors';
+import { getTitle } from '../redux/selectors';
 import { logoutUser } from '../redux/actions';
 //react-bootstrap
 import Nav from 'react-bootstrap/Nav';
