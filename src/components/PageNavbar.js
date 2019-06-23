@@ -38,7 +38,8 @@ export default function PageNavbar() {
                 </Brand>
                 <Nav className="mr-auto">
                     <NavDropdown title="Actions">
-                            <NavDropdown.Item as={NavLink} to="/createcourse">Create Course</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to="/create/course">Create Course</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to="/create/lesson">Create Lesson</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
                 <Form inline>
