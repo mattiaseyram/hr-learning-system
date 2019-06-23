@@ -102,4 +102,37 @@ exports.getCourseCatalog = functions.https.onCall(async (data, context) => {
 
 });
 
+/**
+ * data should be a json object  { courseId: id } 
+ * 
+ * 
+ */
+exports.getLessonsByCourseId = functions.https.onCall(async (data, context) => {
+
+    try {
+        
+        const { courseId } = data;
+        
+        const courseSnapshot = await db.collection('courses').doc(courseId).get();
+
+        let course = courseSnapshot.data();
+
+        const lessonsSnapshot = await db.collection('lessons').get();
+ 
+        let lessons = {};
+
+        lessonsSnapshot.forEach(doc => {
+
+            if (course.lessons.includes(doc.id)) {
+                lessons[doc.id] = doc.data();
+            }
+        })
+
+        return { lessons };
+
+    } catch (err) {
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling addCourseToUser: ' + err.message);
+    }
+
+});
 
