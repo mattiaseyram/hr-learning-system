@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { } from '../redux/selectors';
 import { setTitle } from '../redux/actions';
 //react-bootstrap
-import { Container } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
 
 export default function Page({ title, children }) {
 

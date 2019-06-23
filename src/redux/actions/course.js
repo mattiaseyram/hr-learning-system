@@ -1,6 +1,7 @@
-import { SET_COURSE } from '../actionTypes';
+import { SET_COURSE, SET_COURSES } from '../actionTypes';
+import { functions, db, auth } from '../../utils/firebase';
 import { setLoading, setWarning } from './ui';
-import { db, auth } from '../../utils/firebase';
+import { fetchLessons } from './lesson';
 
 /**
  * Creates course in the db
@@ -48,6 +49,8 @@ export const fetchCourse = (id) => async dispatch => {
                 id: doc.id
             });
         });
+
+        await fetchLessons(id);
 
     } catch (err) {
         console.error(err);
@@ -98,3 +101,40 @@ export const deleteCourse = (id) => async dispatch => {
 
     dispatch(setLoading(false));
 };
+
+/**
+ * gets courses related to the user
+ * @param {String} courseId 
+ */
+export const fetchCourses = () => async dispatch => {
+
+    dispatch(setLoading(true));
+
+    try {
+
+        const user = auth.currentUser;
+        const userId = user.uid;
+
+        const result = await functions.httpsCallable('getCourseCatalog')({ userId });
+
+        const { courses } = result.data;
+
+        console.log(courses);
+
+        dispatch({
+            type: SET_COURSES,
+            courses
+        });
+
+    } catch (err) {
+        console.error(err);
+        dispatch(setWarning('Something went wrong retrieving courses, please try again.'));
+
+        dispatch({
+            type: SET_COURSES
+        });
+    }
+
+    dispatch(setLoading(false));
+
+}

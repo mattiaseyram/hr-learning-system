@@ -16,8 +16,6 @@ const db = admin.firestore();
 
 /**
  * data should be a json object  { userId: id , courseIds: [courseIds] } 
- * 
- * 
  */
 exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
 
@@ -37,8 +35,6 @@ exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
 
                 const course = courseSnapshot.data();
 
-                
-
                 let lessons = {};
 
                 await course.lessons && course.lessons.forEach(lesson => {
@@ -56,8 +52,6 @@ exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
             }
 
         }
-
-        
 
         await db.collection('users').doc(userId).update({ ...user });
         return {  };
@@ -77,6 +71,7 @@ exports.getCourseCatalog = functions.https.onCall(async (data, context) => {
 
     try {
         
+        console.log(data);
         const { userId } = data;
         
         const userSnapshot = await db.collection('users').doc(userId).get();
@@ -97,7 +92,7 @@ exports.getCourseCatalog = functions.https.onCall(async (data, context) => {
         return { courses };
 
     } catch (err) {
-        throw new functions.https.HttpsError('unknown', 'Something went wrong calling addCourseToUser: ' + err.message);
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling getCourseCatalog: ' + err.message);
     }
 
 });
@@ -131,7 +126,7 @@ exports.getLessonsByCourseId = functions.https.onCall(async (data, context) => {
         return { lessons };
 
     } catch (err) {
-        throw new functions.https.HttpsError('unknown', 'Something went wrong calling addCourseToUser: ' + err.message);
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling getLessonsByCourseId: ' + err.message);
     }
 
 });

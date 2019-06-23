@@ -15,6 +15,7 @@ import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import CreateCoursePage from './pages/CreateCoursePage';
 import DataLoadPage from './pages/DataLoadPage';
+import CoursePage from './pages/CoursePage';
 //components
 import PageNavbar from './components/PageNavbar';
 import InfoModal from './components/InfoModal';
@@ -43,7 +44,7 @@ export default function App() {
                     {user && <Route exact path="/" component={HomePage} />}
                     {user && <Route exact path="/profile" component={ProfilePage} />}
                     {user && <Route exact path="/createcourse" component={CreateCoursePage} />}
-                    {user && <Route exact path="/editcourse/:id" component={CreateCoursePage} />}
+                    {user && <Route exact path="/course/:courseId" component={CoursePage} />}
                     {user && <Route exact path="/dataload" component={DataLoadPage} />}
                 </Switch>
             </Router>

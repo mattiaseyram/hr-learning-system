@@ -1,6 +1,6 @@
-import { SET_LESSON } from '../actionTypes';
+import { SET_LESSON, SET_LESSONS } from '../actionTypes';
 import { setLoading, setWarning } from './ui';
-import { db, auth } from '../../utils/firebase';
+import { functions, db, auth } from '../../utils/firebase';
 
 /**
  * Creates lesson in the db
@@ -97,4 +97,36 @@ export const deleteLesson = (id) => async dispatch => {
     }
 
     dispatch(setLoading(false));
+
 };
+
+/**
+ * gets lessons related to course id
+ * @param {String} courseId 
+ */
+export const fetchLessons = (courseId) => async dispatch => {
+
+    dispatch(setLoading(true));
+
+    try {
+
+        const { lessons } = await functions.httpsCallable('getLessonsByCourseId').call({ courseId });
+
+        dispatch({
+            type: SET_LESSONS,
+            lessons
+        });
+
+    } catch (err) {
+
+        console.error(err);
+        dispatch(setWarning('Something went wrong retrieving lessons, please try again.'));
+
+        dispatch({
+            type: SET_LESSONS
+        });
+    }
+
+    dispatch(setLoading(false));
+
+}
