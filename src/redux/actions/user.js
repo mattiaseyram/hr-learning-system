@@ -1,5 +1,5 @@
 import { SET_USER } from '../actionTypes';
-import { db, auth } from '../../utils/firebase';
+import { functions, db, auth } from '../../utils/firebase';
 import { setLoading, setWarning } from './ui';
 
 /**
@@ -159,3 +159,26 @@ export const logoutUser = () => async dispatch => {
 
     dispatch(setLoading(false));
 };
+
+/**
+ * Adds course to user
+ */
+export const addCoursesToUser = (userIdToAdd,courseIds) => async dispatch => {
+
+    dispatch(setLoading(true));
+
+    try {
+
+        const user = auth.currentUser;
+        const userId = userIdToAdd ? userIdToAdd : user.uid;
+
+        const result = await functions.httpsCallable('addCoursesToUser')({ userId, courseIds });
+
+    } catch (err) {
+        console.error(err);
+        dispatch(setWarning('Something went wrong adding course to user please try again.'));
+    }
+
+    dispatch(setLoading(false));
+    
+}

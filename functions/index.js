@@ -20,16 +20,16 @@ const db = admin.firestore();
 exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
 
     try {
-        
-        const {userId, courseIds} = data;
-        
+
+        const { userId, courseIds } = data;
+
         const userSnapshot = await db.collection('users').doc(userId).get();
 
         let user = userSnapshot.data();
 
         for (let courseId of courseIds) {
-            
-            if (! (courseId in user.courses)) {
+
+            if (!(courseId in user.courses)) {
 
                 const courseSnapshot = await db.collection('courses').doc(courseId).get();
 
@@ -54,7 +54,7 @@ exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
         }
 
         await db.collection('users').doc(userId).update({ ...user });
-        return {  };
+        return {};
 
     } catch (err) {
         throw new functions.https.HttpsError('unknown', 'Something went wrong calling addCourseToUser: ' + err.message);
@@ -70,20 +70,21 @@ exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
 exports.getCourseCatalog = functions.https.onCall(async (data, context) => {
 
     try {
-        
+
         const { userId, all = false } = data;
-        
+       
         const userSnapshot = await db.collection('users').doc(userId).get();
 
         let user = userSnapshot.data();
 
         const coursesSnapshot = await db.collection('courses').get();
- 
+
         let courses = {};
 
         coursesSnapshot.forEach(doc => {
 
             if (all || doc.id in user.courses) {
+
                 courses[doc.id] = doc.data();
             }
         })
@@ -101,26 +102,33 @@ exports.getCourseCatalog = functions.https.onCall(async (data, context) => {
  * 
  * 
  */
-exports.getLessonsByCourseId = functions.https.onCall(async (data, context) => {
+exports.getLessons = functions.https.onCall(async (data, context) => {
 
     try {
-        
-        const { courseId } = data;
-        
-        const courseSnapshot = await db.collection('courses').doc(courseId).get();
 
-        let course = courseSnapshot.data();
+        const { courseId = '' } = data;
 
         const lessonsSnapshot = await db.collection('lessons').get();
- 
         let lessons = {};
 
-        lessonsSnapshot.forEach(doc => {
+        if (courseId) {
 
-            if (course.lessons.includes(doc.id)) {
+            const courseSnapshot = await db.collection('courses').doc(courseId).get();
+
+            let course = courseSnapshot.data();
+
+            lessonsSnapshot.forEach(doc => {
+
+                if (course.lessons.includes(doc.id)) {
+                    lessons[doc.id] = doc.data();
+                }
+            })
+
+        } else {
+            lessonsSnapshot.forEach(doc => {
                 lessons[doc.id] = doc.data();
-            }
-        })
+            });
+        }
 
         return { lessons };
 
@@ -139,9 +147,9 @@ exports.getLessonsByCourseId = functions.https.onCall(async (data, context) => {
 exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
 
     try {
-        
+
         const { userId, lessonId, courseId } = data;
-        var score = 0; 
+        var score = 0;
         var completed = false;
         const userSnapshot = await db.collection('users').doc(userId).get();
 
@@ -156,19 +164,19 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
         let lessonAttempt = user.courses[courseId].lessons[lessonId].answers;
 
         //Want to check if each lessonAttempt 
-  
-        for(let i = 0; i < lessonAttempt.length; i++){
 
-            if(quiz[i].answer == lessonAttempt[i]){
-                score+=1;
+        for (let i = 0; i < lessonAttempt.length; i++) {
+
+            if (quiz[i].answer == lessonAttempt[i]) {
+                score += 1;
             }
         }
-        if(score == lessonAttempt.length){
+        if (score == lessonAttempt.length) {
             completed = true;
         }
 
         //Update user with the score 
-        user.courses[courseId].lessons[lessonId].total= score;
+        user.courses[courseId].lessons[lessonId].total = score;
         user.courses[courseId].lessons[lessonId].complete = completed;
 
         await db.collection('users').doc(userId).update({ ...user });
@@ -190,24 +198,25 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
 exports.getSubordinates = functions.https.onCall(async (data, context) => {
 
     try {
-        
+
         const { userId } = data;
-        
+
         const userSnapshot = await db.collection('users').doc(userId).get();
 
         const allUsersSnapshot = await db.collection('users').get();
 
         let user = userSnapshot.data();
-        
-        var subordinates = {}; 
+      
+        var subordinates = {};
+      
         allUsersSnapshot.forEach(doc => {
-            if(user.manages.includes(doc.id)){
+            if (user.manages.includes(doc.id)) {
                 subordinates[doc.id] = doc.data();
             }
         });
 
 
-        return { subordinates }    
+        return { subordinates }
 
     } catch (err) {
         throw new functions.https.HttpsError('unknown', 'Something went wrong calling getSubordinates: ' + err.message);
