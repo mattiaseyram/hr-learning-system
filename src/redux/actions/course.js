@@ -109,7 +109,7 @@ export const deleteCourse = (id) => async dispatch => {
  * gets courses related to the user
  * @param {String} courseId 
  */
-export const fetchCourses = () => async dispatch => {
+export const fetchCourses = (all = false) => async dispatch => {
 
     dispatch(setLoading(true));
 
@@ -118,7 +118,7 @@ export const fetchCourses = () => async dispatch => {
         const user = auth.currentUser;
         const userId = user.uid;
 
-        const result = await functions.httpsCallable('getCourseCatalog')({ userId });
+        const result = await functions.httpsCallable('getCourseCatalog')({ userId, all });
 
         const { courses } = result.data;
 

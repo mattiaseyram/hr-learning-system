@@ -71,7 +71,7 @@ exports.getCourseCatalog = functions.https.onCall(async (data, context) => {
 
     try {
         
-        const { userId } = data;
+        const { userId, all = false } = data;
         
         const userSnapshot = await db.collection('users').doc(userId).get();
 
@@ -83,7 +83,7 @@ exports.getCourseCatalog = functions.https.onCall(async (data, context) => {
 
         coursesSnapshot.forEach(doc => {
 
-            if (doc.id in user.courses) {
+            if (all || doc.id in user.courses) {
                 courses[doc.id] = doc.data();
             }
         })
@@ -187,7 +187,7 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
  * 
  */
 
-exports.getSubordinates= functions.https.onCall(async (data, context) => {
+exports.getSubordinates = functions.https.onCall(async (data, context) => {
 
     try {
         
@@ -198,7 +198,7 @@ exports.getSubordinates= functions.https.onCall(async (data, context) => {
         const allUsersSnapshot = await db.collection('users').get();
 
         let user = userSnapshot.data();
-        console.log("user manages", user.manages);
+        
         var subordinates = {}; 
         allUsersSnapshot.forEach(doc => {
             if(user.manages.includes(doc.id)){
