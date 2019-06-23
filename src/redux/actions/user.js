@@ -1,7 +1,6 @@
 import { SET_USER } from '../actionTypes';
 import { functions, db, auth } from '../../utils/firebase';
 import { setLoading, setWarning } from './ui';
-import { fetchCourses } from './course';
 
 /**
  * Logs in the user with the given email and password
@@ -44,7 +43,6 @@ export const fetchUser = () => dispatch => {
                         user: doc.data()
                     });
 
-                    dispatch(fetchCourses());
                 });
 
             } else {
@@ -79,7 +77,6 @@ export const createUser = (userData) => async dispatch => {
 
         const email = userData.email;
         const password = userData.password;
-        delete userData.email;
         delete userData.password;
 
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);

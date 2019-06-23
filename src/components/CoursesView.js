@@ -1,17 +1,19 @@
 //react
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 //router
 import { Link } from "react-router-dom";
 //redux
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCourses } from '../redux/selectors';
-import { } from '../redux/actions';
+import { fetchCourses } from '../redux/actions';
 //react-bootstrap
 import ListGroup from 'react-bootstrap/ListGroup';
 
 export default function CoursesView() {
 
     const courses = useSelector(getCourses);
+    const dispatch = useDispatch();
+    useEffect(() => { dispatch(fetchCourses()) }, [dispatch]);
 
     const courseItems = Object.keys(courses).map((key, i) => {
 
