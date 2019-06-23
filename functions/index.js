@@ -71,7 +71,6 @@ exports.getCourseCatalog = functions.https.onCall(async (data, context) => {
 
     try {
         
-        console.log(data);
         const { userId } = data;
         
         const userSnapshot = await db.collection('users').doc(userId).get();

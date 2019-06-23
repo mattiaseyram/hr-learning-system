@@ -43,11 +43,14 @@ export const fetchCourse = (id) => async dispatch => {
     try {
 
         db.collection('courses').doc(id).onSnapshot(doc => {
+            
             dispatch({
                 type: SET_COURSE,
                 course: doc.data(),
                 id: doc.id
             });
+
+            dispatch(fetchLessons(doc.id));
         });
 
         await fetchLessons(id);
@@ -118,8 +121,6 @@ export const fetchCourses = () => async dispatch => {
         const result = await functions.httpsCallable('getCourseCatalog')({ userId });
 
         const { courses } = result.data;
-
-        console.log(courses);
 
         dispatch({
             type: SET_COURSES,

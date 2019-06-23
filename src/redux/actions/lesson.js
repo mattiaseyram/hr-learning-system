@@ -110,7 +110,8 @@ export const fetchLessons = (courseId) => async dispatch => {
 
     try {
 
-        const { lessons } = await functions.httpsCallable('getLessonsByCourseId').call({ courseId });
+        const result = await functions.httpsCallable('getLessonsByCourseId')({ courseId });
+        const { lessons } = result.data;
 
         dispatch({
             type: SET_LESSONS,
