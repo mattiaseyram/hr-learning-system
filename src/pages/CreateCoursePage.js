@@ -1,5 +1,5 @@
 //react
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 //router
 import { } from "react-router-dom";
 //redux
@@ -10,9 +10,9 @@ import { } from '../redux/actions';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { createCourse } from '../redux/actions/course';
+import { createCourse } from '../redux/actions';
 //components
-
+import Page from '../components/Page';
 
 export default function CreateCoursePage() {
 
@@ -33,7 +33,7 @@ export default function CreateCoursePage() {
     };
 
     return (
-        <Fragment>
+        <Page title='Create Course'>
             <Modal.Dialog>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
@@ -63,6 +63,6 @@ export default function CreateCoursePage() {
                     <Button variant="primary" type="submit" onClick={handleCreateCourse}>Create Course</Button>
                 </Modal.Footer>
             </Modal.Dialog>
-        </Fragment>
+        </Page>
     );
 };

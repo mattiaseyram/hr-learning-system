@@ -1,7 +1,8 @@
-import { SET_USER } from '../actionTypes';
+import { SET_USER, SET_USERS } from '../actionTypes';
 
 const initialState = {
-  user: null
+  user: null,
+  users: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -11,6 +12,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         user
+      };
+    }
+    case SET_USERS: {
+      const { users = {} } = action;
+      return {
+        ...state,
+        users
       };
     }
     default:

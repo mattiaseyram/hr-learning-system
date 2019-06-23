@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import { NavLink } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../redux/selectors';
+import { getUser, getTitle } from '../redux/selectors';
 import { logoutUser } from '../redux/actions';
 //react-bootstrap
 import Nav from 'react-bootstrap/Nav';
@@ -21,7 +21,7 @@ import Button from 'react-bootstrap/Button';
 export default function PageNavbar() {
 
     //useSelector(selector) connects a selector function to the redux store
-    const user = useSelector(getUser);
+    const pageTitle = useSelector(getTitle);
 
     //dispatch (from useDispatch()) is a function we use to connect an action to the redux store
     const dispatch = useDispatch();
@@ -34,7 +34,7 @@ export default function PageNavbar() {
         <Fragment>
             <Navbar bg="dark" className="justify-content-between" variant="dark">
                 <Brand as={NavLink} to="/">
-                    {`HR Learning System: ${user.first_name}`}
+                    {pageTitle}
                 </Brand>
                 <Nav className="mr-auto">
                     <NavDropdown title="Actions">

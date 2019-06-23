@@ -1,5 +1,5 @@
 //react
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 //router
 import { NavLink } from "react-router-dom";
 //redux
@@ -10,6 +10,8 @@ import { loginUser } from '../redux/actions';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+//components
+import Page from '../components/Page';
 
 export default function LoginPage() {
 
@@ -27,7 +29,7 @@ export default function LoginPage() {
     };
 
     return (
-        <Fragment>
+        <Page>
             <Modal.Dialog>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
@@ -53,6 +55,6 @@ export default function LoginPage() {
                     </NavLink>
                 </Modal.Footer>
             </Modal.Dialog>
-        </Fragment>
+        </Page>
     );
 };

@@ -3,7 +3,7 @@ import { SET_COURSE, SET_COURSES } from '../actionTypes';
 const initialState = {
   course: null,
   id: null,
-  courses: []
+  courses: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -17,7 +17,7 @@ const reducer = (state = initialState, action) => {
       };
     }
     case SET_COURSES: {
-      const { courses = [] } = action;
+      const { courses = {} } = action;
       return {
         ...state,
         courses
