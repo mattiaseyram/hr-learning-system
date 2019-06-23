@@ -199,11 +199,11 @@ exports.getSubordinates= functions.https.onCall(async (data, context) => {
         const allUsersSnapshot = await db.collection('users').get();
 
         let user = userSnapshot.data();
-
+        console.log("user manages", user.manages);
         var subordinates = {}; 
         allUsersSnapshot.forEach(doc => {
-            if(doc.id in user.manages){
-                subordinates[doc.id] = doc;
+            if(user.manages.includes(doc.id)){
+                subordinates[doc.id] = doc.data();
             }
         });
 
