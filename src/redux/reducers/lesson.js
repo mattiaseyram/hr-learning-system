@@ -3,7 +3,7 @@ import { SET_LESSON, SET_LESSONS } from '../actionTypes';
 const initialState = {
   lesson: null,
   id: null,
-  lessons: []
+  lessons: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -17,7 +17,7 @@ const reducer = (state = initialState, action) => {
       };
     }
     case SET_LESSONS: {
-      const { lessons = [] } = action;
+      const { lessons = {} } = action;
       return {
         ...state,
         lessons

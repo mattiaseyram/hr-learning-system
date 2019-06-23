@@ -1,4 +1,4 @@
-import { SET_LOADING, SET_WARNING } from '../actionTypes';
+import { SET_LOADING, SET_WARNING, SET_TITLE } from '../actionTypes';
 
 /**
  * Toggles the loading modal
@@ -16,4 +16,13 @@ export const setLoading = (loading = false) => ({
 export const setWarning = (warning = '') => ({
     type: SET_WARNING,
     warning
+});
+
+/**
+ * Sets the page title
+ * @param {String} title 
+ */
+export const setTitle = (title) => ({
+    type: SET_TITLE,
+    title
 });

@@ -1,5 +1,5 @@
 //react
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 //router
 import { } from "react-router-dom";
 //redux
@@ -10,6 +10,8 @@ import { createUser } from '../redux/actions';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+//components
+import Page from '../components/Page';
 
 export default function SignUpPage() {
 
@@ -22,7 +24,7 @@ export default function SignUpPage() {
         password: '',
         role: '',
         manages: [],
-        courses: {}
+        courses: []
     });
 
     const handleCreateUser = () => dispatch(createUser(userState));
@@ -34,7 +36,7 @@ export default function SignUpPage() {
     };
 
     return (
-        <Fragment>
+        <Page>
             <Modal.Dialog>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
@@ -70,6 +72,6 @@ export default function SignUpPage() {
                     <Button variant="primary" type="submit" onClick={handleCreateUser}>Create User</Button>
                 </Modal.Footer>
             </Modal.Dialog>
-        </Fragment>
+        </Page>
     );
 };
