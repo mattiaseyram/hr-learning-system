@@ -8,6 +8,7 @@ import { getCourses } from '../redux/selectors';
 import { fetchCourses } from '../redux/actions';
 //react-bootstrap
 import ListGroup from 'react-bootstrap/ListGroup';
+import Badge from 'react-bootstrap/Badge';
 
 export default function CoursesView() {
 
@@ -18,10 +19,16 @@ export default function CoursesView() {
     const courseItems = Object.keys(courses).map((key, i) => {
 
         const course = courses[key];
+        let badge;
+        if (course.Completed){
+            badge=<Badge variant="secondary">Completed</Badge>
+        }else{
+            badge=<Badge variant="primary">In Progress</Badge>
+        }
 
         return (
             <ListGroup.Item action as={Link} to={`/courses/${key}`} key={i}>
-                {course.title}
+                {course.title} {badge}
             </ListGroup.Item>
         );
     });

@@ -8,6 +8,7 @@ import { getCourse } from '../redux/selectors';
 import { fetchCourse } from '../redux/actions';
 //react-bootstrap
 import Jumbotron from 'react-bootstrap/Jumbotron';
+
 //components
 import Page from '../components/Page';
 import LessonsView from '../components/LessonsView';
@@ -19,7 +20,6 @@ export default function CoursePage({ match: { params } }) {
     const dispatch = useDispatch();
 
     useEffect(() => { dispatch(fetchCourse(params.courseId)) }, [dispatch, params.courseId]);
-
     return (
         <Page title={course.title}>
             <Jumbotron>

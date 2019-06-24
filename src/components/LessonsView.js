@@ -8,6 +8,7 @@ import { getLessons } from '../redux/selectors';
 import { } from '../redux/actions';
 //react-bootstrap
 import ListGroup from 'react-bootstrap/ListGroup';
+import Badge from 'react-bootstrap/Badge'
 
 export default function LessonsView() {
 
@@ -16,10 +17,16 @@ export default function LessonsView() {
     const lessonItems = Object.keys(lessons).map((key, i) => {
 
         const lesson = lessons[key];
+        let badge;
+        if (lesson.Completed){
+            badge=<Badge variant="secondary">Completed</Badge>
+        }else{
+            badge=<Badge variant="primary">In Progress</Badge>
+        }
 
         return (
             <ListGroup.Item action as={Link} to={`/lessons/${key}`} key={i}>
-                {lesson.title}
+                {lesson.title} {badge}
             </ListGroup.Item>
         );
     });
