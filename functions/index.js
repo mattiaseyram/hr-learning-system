@@ -181,7 +181,13 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
         //Update user with the score 
         user.courses[courseId].lessons[lessonId].total = score;
         user.courses[courseId].lessons[lessonId].complete = completed;
-
+        var courseCompleted = true; 
+        for(li in user.courses[courseId].lessons){
+            if(user.courses.lessons[li].completed == 0){
+                courseCompleted = false;
+            }
+        }
+        user.courses[courseId].completed = courseCompleted;
         await db.collection('users').doc(userId).update({ ...user });
 
         return { user };
