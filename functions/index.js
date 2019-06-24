@@ -42,7 +42,7 @@ exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
 
                 await course.lessons && course.lessons.forEach(lesson => {
                     lessons[lesson] = {
-                        complete: 0,
+                        complete: false,
                         answers: []
                     }
                 });
@@ -177,13 +177,14 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
         if (score == lessonAttempt.length) {
             completed = true;
         }
-
+        
         //Update user with the score 
         user.courses[courseId].lessons[lessonId].total = score;
         user.courses[courseId].lessons[lessonId].complete = completed;
         var courseCompleted = true; 
         for(li in user.courses[courseId].lessons){
-            if(user.courses.lessons[li].completed == 0){
+
+            if(user.courses[courseId].lessons[li].complete == false){
                 courseCompleted = false;
             }
         }
