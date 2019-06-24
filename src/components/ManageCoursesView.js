@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getCourses, getUsers, getUser } from '../redux/selectors';
-import { fetchCourses } from '../redux/actions';
+import { fetchCourses, addCoursesToUser, deleteCourse } from '../redux/actions';
 //react-bootstrap
 import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
@@ -13,7 +13,7 @@ import Card from 'react-bootstrap/Card';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-export default function SelectCoursesView() {
+export default function ManageCoursesView() {
 
     const courses = useSelector(getCourses);
     const dispatch = useDispatch();
@@ -22,9 +22,31 @@ export default function SelectCoursesView() {
     const user = useSelector(getUser);
     const users = useSelector(getUsers);
 
-    const courseItems = Object.keys(courses).map((key, i) => {
+    const handleAddCourseToUser = (userId, courseId) => { dispatch(addCoursesToUser(userId, [courseId])) };
 
-        const course = courses[key];
+    const handleDeleteCourse = async (courseId) => {
+        await dispatch(deleteCourse(courseId));
+        dispatch(fetchCourses(true));
+    };
+
+    const getDropdownButton = (courseId) => (
+        <DropdownButton title="Add Course To User" className="mr-sm-2">
+            <Dropdown.Item onClick={() => { handleAddCourseToUser(null, courseId) }}
+            >{user.email}</Dropdown.Item>
+
+            {Object.keys(users).map((userId, i) => {
+                const otherUser = users[userId];
+                return (
+                    <Dropdown.Item onClick={() => { handleAddCourseToUser(userId, courseId) }}
+                        key={i}>{otherUser.email}</Dropdown.Item>
+                )
+            })}
+        </DropdownButton>
+    );
+
+    const courseItems = Object.keys(courses).map((courseId, i) => {
+
+        const course = courses[courseId];
 
         return (
             <Card className='m-4' key={i}>
@@ -32,20 +54,13 @@ export default function SelectCoursesView() {
                     <Card.Title>{course.title}</Card.Title>
                     <Card.Text>{course.description}</Card.Text>
                     <ButtonToolbar>
-                        <NavLink to={`edit/courses/${key}`}>
+                        {getDropdownButton(courseId)}
+                        <NavLink to={`/edit/courses/${courseId}`}>
                             <Button variant="primary" className="mr-sm-2">Edit</Button>
                         </NavLink>
-                        <DropdownButton title="Add Course">
-                            <Dropdown.Item key={i}
-                                onClick={() => { console.log(user.email) }}>{user.email}</Dropdown.Item>
-                            {Object.keys(users).map((key, i) => {
-                                const otherUser = users[key];
-                                return (
-                                <Dropdown.Item key={i}
-                                    onClick={() => { console.log(otherUser.email) }}>{otherUser.email}</Dropdown.Item>
-                                )
-                            })}
-                        </DropdownButton>
+                        <Button variant="danger"
+                            onClick={() => handleDeleteCourse(courseId)}
+                            className="mr-sm-2" >Delete</Button>
                     </ButtonToolbar>
                 </Card.Body>
             </Card>

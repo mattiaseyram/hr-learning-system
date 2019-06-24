@@ -17,8 +17,8 @@ import CreateCoursePage from './pages/CreateCoursePage';
 import CreateLessonPage from './pages/CreateLessonPage';
 import EditCoursePage from './pages/EditCoursePage';
 import EditLessonPage from './pages/EditLessonPage';
-import CoursesPage from './pages/CoursesPage';
-import LessonsPage from './pages/LessonsPage';
+import ManageCoursesPage from './pages/ManageCoursesPage';
+import ManageLessonsPage from './pages/ManageLessonsPage';
 import CoursePage from './pages/CoursePage';
 import LessonPage from './pages/LessonPage';
 import DataLoadPage from './pages/DataLoadPage';
@@ -51,10 +51,10 @@ export default function App() {
                     {user && <Route exact path="/profile" component={ProfilePage} />}
                     {user && <Route exact path="/create/course" component={CreateCoursePage} />}
                     {user && <Route exact path="/create/lesson" component={CreateLessonPage} />}
-                    {user && <Route exact path="/edit/course/:courseId" component={EditCoursePage} />}
-                    {user && <Route exact path="/edit/lesson/:lessonId" component={EditLessonPage} />}
-                    {user && <Route exact path="/courses" component={CoursesPage} />}
-                    {user && <Route exact path="/lessons" component={LessonsPage} />}
+                    {user && <Route exact path="/edit/courses/:courseId" component={EditCoursePage} />}
+                    {user && <Route exact path="/edit/lessons/:lessonId" component={EditLessonPage} />}
+                    {user && <Route exact path="/courses" component={ManageCoursesPage} />}
+                    {user && <Route exact path="/lessons" component={ManageLessonsPage} />}
                     {user && <Route exact path="/courses/:courseId" component={CoursePage} />}
                     {user && <Route exact path="/lessons/:lessonId" component={LessonPage} />}
                     {user && <Route exact path="/dataload" component={DataLoadPage} />}

@@ -104,13 +104,17 @@ export const deleteLesson = (id) => async dispatch => {
  * gets lessons related to course id
  * @param {String} courseId 
  */
-export const fetchLessons = (courseId) => async dispatch => {
+export const fetchLessons = (courseId = null) => async dispatch => {
 
     dispatch(setLoading(true));
 
+    dispatch({
+        type: SET_LESSONS
+    });
+
     try {
 
-        const result = await functions.httpsCallable('getLessonsByCourseId')({ courseId });
+        const result = await functions.httpsCallable('getLessons')({ courseId });
         const { lessons } = result.data;
 
         dispatch({
@@ -119,13 +123,8 @@ export const fetchLessons = (courseId) => async dispatch => {
         });
 
     } catch (err) {
-
         console.error(err);
         dispatch(setWarning('Something went wrong retrieving lessons, please try again.'));
-
-        dispatch({
-            type: SET_LESSONS
-        });
     }
 
     dispatch(setLoading(false));

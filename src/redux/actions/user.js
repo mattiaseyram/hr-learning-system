@@ -1,4 +1,4 @@
-import { SET_USER } from '../actionTypes';
+import { SET_USER, SET_USERS } from '../actionTypes';
 import { functions, db, auth } from '../../utils/firebase';
 import { setLoading, setWarning } from './ui';
 
@@ -42,6 +42,8 @@ export const fetchUser = () => dispatch => {
                         type: SET_USER,
                         user: doc.data()
                     });
+
+                    dispatch(fetchUsers());
 
                 });
 
@@ -181,4 +183,38 @@ export const addCoursesToUser = (userIdToAdd,courseIds) => async dispatch => {
 
     dispatch(setLoading(false));
     
+}
+
+/**
+ * Fetches the signed in user's subordinates
+ */
+export const fetchUsers = () => async dispatch => {
+
+    dispatch(setLoading(true));
+
+    try {
+
+        const user = auth.currentUser;
+        const userId = user.uid;
+
+        const result = await functions.httpsCallable('getSubordinates')({ userId });
+
+        const { subordinates } = result.data;
+
+        dispatch({
+            type: SET_USERS,
+            users: subordinates
+        });
+
+    } catch (err) {
+        console.error(err);
+        dispatch(setWarning('Something went wrong retrieving users, please try again.'));
+
+        dispatch({
+            type: SET_USERS
+        });
+    }
+
+    dispatch(setLoading(false));
+
 }

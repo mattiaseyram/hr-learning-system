@@ -11,7 +11,6 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar, { Brand } from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 
 /**
  * This is the default exported functional component called PageNavbar,
@@ -32,7 +31,7 @@ export default function PageNavbar() {
     //return (...) in a functional component returns the JSX view
     return (
         <Fragment>
-            <Navbar bg="dark" className="justify-content-between" variant="dark">
+            <Navbar bg="dark" className="justify-content-between mb-4" variant="dark">
                 <Brand as={NavLink} to="/">
                     {pageTitle}
                 </Brand>
@@ -45,10 +44,10 @@ export default function PageNavbar() {
                     </NavDropdown>
                 </Nav>
                 <Form inline>
-                    <NavLink to="/profile">
-                        <Button variant="primary" className="mr-sm-2">Profile</Button>
-                    </NavLink>
-                    <Button variant="secondary" onClick={handleLogout}>Logout</Button>
+                    <NavDropdown title="Profile">
+                            <NavDropdown.Item as={NavLink} to="/profile">Profile</NavDropdown.Item>
+                            <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                    </NavDropdown>
                 </Form>
             </Navbar>
         </Fragment>

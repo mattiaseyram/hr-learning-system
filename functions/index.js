@@ -15,6 +15,7 @@ try {
 const db = admin.firestore();
 
 /**
+ * Adds course ids to given user
  * data should be a json object  { userId: id , courseIds: [courseIds] } 
  */
 exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
@@ -27,9 +28,11 @@ exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
 
         let user = userSnapshot.data();
 
+        if (!user.courses) user.courses = {};
+
         for (let courseId of courseIds) {
 
-            if (!(courseId in user.courses)) {
+            if ( !(courseId in user.courses)) {
 
                 const courseSnapshot = await db.collection('courses').doc(courseId).get();
 
@@ -63,11 +66,10 @@ exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
 });
 
 /**
+ * Gets courses (assigned to user id, or all)
  * data should be a json object  { userId: id } 
- * 
- * 
  */
-exports.getCourseCatalog = functions.https.onCall(async (data, context) => {
+exports.getCourses = functions.https.onCall(async (data, context) => {
 
     try {
 
@@ -81,6 +83,8 @@ exports.getCourseCatalog = functions.https.onCall(async (data, context) => {
 
         let courses = {};
 
+        if (!user.courses) return { courses };
+
         coursesSnapshot.forEach(doc => {
 
             if (all || doc.id in user.courses) {
@@ -92,21 +96,20 @@ exports.getCourseCatalog = functions.https.onCall(async (data, context) => {
         return { courses };
 
     } catch (err) {
-        throw new functions.https.HttpsError('unknown', 'Something went wrong calling getCourseCatalog: ' + err.message);
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling getCourses: ' + err.message);
     }
 
 });
 
 /**
+ * Gets lessons (by course id, or all)
  * data should be a json object  { courseId: id } 
- * 
- * 
  */
 exports.getLessons = functions.https.onCall(async (data, context) => {
 
     try {
 
-        const { courseId = '' } = data;
+        const { courseId = null } = data;
 
         const lessonsSnapshot = await db.collection('lessons').get();
         let lessons = {};
@@ -116,6 +119,8 @@ exports.getLessons = functions.https.onCall(async (data, context) => {
             const courseSnapshot = await db.collection('courses').doc(courseId).get();
 
             let course = courseSnapshot.data();
+
+            if (!course.lessons) return { lessons };
 
             lessonsSnapshot.forEach(doc => {
 
@@ -133,17 +138,15 @@ exports.getLessons = functions.https.onCall(async (data, context) => {
         return { lessons };
 
     } catch (err) {
-        throw new functions.https.HttpsError('unknown', 'Something went wrong calling getLessonsByCourseId: ' + err.message);
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling getLessons: ' + err.message);
     }
 
 });
 
 /**
+ * Calculates the user's score on the quiz
  * data should be a json object  { userId: id, lessonId: id, courseId: id} 
- * 
- * 
  */
-
 exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
 
     try {
@@ -181,7 +184,7 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
 
         await db.collection('users').doc(userId).update({ ...user });
 
-        return { user }
+        return { user };
 
     } catch (err) {
         throw new functions.https.HttpsError('unknown', 'Something went wrong calling addCourseToUser: ' + err.message);
@@ -190,11 +193,9 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
 });
 
 /**
+ * Gets the user's subordinate users
  * data should be a json object  { userId: id }  
- * 
- * 
  */
-
 exports.getSubordinates = functions.https.onCall(async (data, context) => {
 
     try {
@@ -207,16 +208,18 @@ exports.getSubordinates = functions.https.onCall(async (data, context) => {
 
         let user = userSnapshot.data();
       
-        var subordinates = {};
+        let subordinates = {};
       
+        if (!user.manages) return { subordinates };
+
         allUsersSnapshot.forEach(doc => {
+
             if (user.manages.includes(doc.id)) {
                 subordinates[doc.id] = doc.data();
             }
         });
 
-
-        return { subordinates }
+        return { subordinates };
 
     } catch (err) {
         throw new functions.https.HttpsError('unknown', 'Something went wrong calling getSubordinates: ' + err.message);
