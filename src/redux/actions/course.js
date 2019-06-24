@@ -113,12 +113,16 @@ export const fetchCourses = (all = false) => async dispatch => {
 
     dispatch(setLoading(true));
 
+    dispatch({
+        type: SET_COURSES
+    });
+
     try {
 
         const user = auth.currentUser;
         const userId = user.uid;
 
-        const result = await functions.httpsCallable('getCourseCatalog')({ userId, all });
+        const result = await functions.httpsCallable('getCourses')({ userId, all });
 
         const { courses } = result.data;
 
@@ -130,10 +134,6 @@ export const fetchCourses = (all = false) => async dispatch => {
     } catch (err) {
         console.error(err);
         dispatch(setWarning('Something went wrong retrieving courses, please try again.'));
-
-        dispatch({
-            type: SET_COURSES
-        });
     }
 
     dispatch(setLoading(false));
