@@ -40,7 +40,7 @@ export default function ManageLessonsView() {
                     </ButtonToolbar>
                 </Card.Body>
             </Card>
-        )
+        );
 
     });
 

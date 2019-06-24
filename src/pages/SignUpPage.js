@@ -27,7 +27,15 @@ export default function SignUpPage() {
         courses: []
     });
 
-    const handleCreateUser = () => dispatch(createUser(userState));
+    const handleCreateUser = () => {
+
+        const newUser = {...userState};
+        newUser.manages = newUser.manages
+        .split(',')
+        .map(userId => userId.trim());
+
+        dispatch(createUser(newUser));
+    };
 
     const handleSubmit = (event) => {
         handleCreateUser();
@@ -65,6 +73,13 @@ export default function SignUpPage() {
                                 placeholder="Enter last name"
                                 value={userState.last_name}
                                 onChange={event => setUserState({ ...userState, last_name: event.target.value })} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Manages</Form.Label>
+                            <Form.Control type="text"
+                                placeholder="Enter comma separated ids"
+                                value={userState.manages}
+                                onChange={event => setUserState({ ...userState, manages: event.target.value })} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>

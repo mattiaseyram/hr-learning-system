@@ -20,9 +20,27 @@ export default function ProfilePage() {
     const user = useSelector(getUser);
 
     //initialize userState to redux store's user
-    const [userState, setUserState] = useState(user);
+    const [userState, setUserState] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        role: '',
+        manages: [],
+        courses: [],
+        ...user
+    });
 
-    const handleUpdateUser = () => dispatch(updateUser(userState));
+    const handleUpdateUser = () => {
+
+        const newUser = {...userState};
+        newUser.manages = newUser.manages
+        .split(',')
+        .map(userId => userId.trim());
+
+        dispatch(updateUser(newUser));
+    };
+
     const handleDeleteUser = () => dispatch(deleteUser());
 
     const handleSubmit = (event) => {
@@ -49,6 +67,13 @@ export default function ProfilePage() {
                                 placeholder="Enter last name"
                                 value={userState.last_name}
                                 onChange={event => setUserState({ ...userState, last_name: event.target.value })} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Manages</Form.Label>
+                            <Form.Control type="text"
+                                placeholder="Enter comma separated ids"
+                                value={userState.manages}
+                                onChange={event => setUserState({ ...userState, manages: event.target.value })} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>

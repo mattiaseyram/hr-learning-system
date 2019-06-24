@@ -64,7 +64,7 @@ export default function ManageCoursesView() {
                     </ButtonToolbar>
                 </Card.Body>
             </Card>
-        )
+        );
 
     });
 
