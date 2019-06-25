@@ -24,6 +24,27 @@ export default function LessonPage({ match: { params } }) {
     useEffect(() => { dispatch(fetchCourse(params.courseId)) }, [dispatch, params.courseId]);
     useEffect(() => { dispatch(fetchLesson(params.lessonId)) }, [dispatch, params.lessonId]);
 
+    // quizzes
+    const quizzes = (lesson.questions ? lesson.questions.map((quiz, i) => {
+        return (
+            <Form>
+                {quiz.options.map(ans => (
+                    <div className="radio-buttons">
+                    <h3>{ans.question}</h3>
+                    <label>
+                        <input
+                            type="radio"
+                            name="radio-butt"
+                            value={ans}
+                        />
+                        {ans}
+                    </label>
+                    </div>
+                ))}
+            </Form>
+            )
+    }) : null);
+
     return (
         <Page title={lesson.title}>
             <JumboCard>
@@ -32,6 +53,12 @@ export default function LessonPage({ match: { params } }) {
             <JumboCard border="secondary">
                 <ReactMarkdown source={lesson.content}/>
             </JumboCard>
+            <Jumbotron>
+                {lesson.title}
+            </Jumbotron>
+            {lesson.content}
+            <h2>Quizzes</h2>
+            { quizzes }
         </Page>
     );
 };
