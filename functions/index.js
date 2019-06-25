@@ -170,11 +170,11 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
 
         for (let i = 0; i < lessonAttempt.length; i++) {
 
-            if (quiz[i].answer == lessonAttempt[i]) {
+            if (quiz[i].answer === lessonAttempt[i]) {
                 score += 1;
             }
         }
-        if (score == lessonAttempt.length) {
+        if (score === quiz.length) {
             completed = true;
         }
         
@@ -184,7 +184,7 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
         var courseCompleted = true; 
         for(li in user.courses[courseId].lessons){
 
-            if(user.courses[courseId].lessons[li].complete == false){
+            if(!user.courses[courseId].lessons[li].complete){
                 courseCompleted = false;
             }
         }
@@ -232,4 +232,19 @@ exports.getSubordinates = functions.https.onCall(async (data, context) => {
         throw new functions.https.HttpsError('unknown', 'Something went wrong calling getSubordinates: ' + err.message);
     }
 
+});
+
+exports.getAllUsers = functions.https.onCall(async (data,context)=>{
+    
+    try{
+        const userSnapshot = await db.collection('users').get();
+        var allUsers ={};
+        userSnapshot.forEach(user =>{
+            allUsers[user.id] = user.data();
+        });
+        return { allUsers}
+    } catch(err){
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling getAllUsers: ' + err.message);
+    }
+    
 });
