@@ -4,36 +4,49 @@ import React, { useState, useEffect } from 'react';
 import { } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getLesson } from '../redux/selectors';
-import { updateLesson, fetchLesson } from '../redux/actions';
+import { getLesson, getLessonId } from '../redux/selectors';
+import { updateLesson, fetchLesson, setWarning } from '../redux/actions';
 //react-bootstrap
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+//react-markdown
+import ReactMde from 'react-mde';
+import ReactMarkdown from 'react-markdown';
 //components
 import Page from '../components/Page';
 
+//css
+import 'react-mde/lib/styles/css/react-mde-all.css';
+
+const emptyLesson = {
+    title: '',
+    content: '',
+    questions: []
+};
+
 export default function EditLessonPage({ match: { params } }) {
-
-    const lesson = useSelector(getLesson) || (
-        {
-            title: '',
-            description: '',
-            mandatory: false
-        }
-    );
-
-    const [lessonState, setLessonState] = useState(lesson);
 
     const dispatch = useDispatch();
 
-    //fetch lesson by route param
-    useEffect(() => { dispatch(fetchLesson(params.lessonId)) }, [dispatch, params.lessonId]);
+    const lesson = useSelector(getLesson) || emptyLesson;
+    const lessonId = useSelector(getLessonId);
 
-    //sets lessonState to lesson when lesson loads
-    useEffect(() => { setLessonState({ ...lesson }) }, [lesson]);
+    const [lessonState, setLessonState] = useState({...emptyLesson, ...lesson});
 
-    const handleUpdateLesson = () => dispatch(updateLesson(params.lessonId, lessonState));
+    const [questions, setQuestions] = useState({});
+
+    const [tab, setTab] = useState('write');
+
+    const handleUpdateLesson = () => {
+        try {
+            const questionsJson = JSON.parse(questions);
+            dispatch(updateLesson(lessonId, { ...lessonState, questions: questionsJson }));
+        }
+        catch (err) {
+            dispatch(setWarning('Invalid Questions JSON, please fix and try again.'));
+        }
+    };
 
     const handleSubmit = (event) => {
         handleUpdateLesson();
@@ -41,8 +54,17 @@ export default function EditLessonPage({ match: { params } }) {
         event.stopPropagation();
     };
 
+    //set questions to stringified lesson.questions
+    useEffect(() => { setQuestions(JSON.stringify(lessonState.questions)); }, [lessonState.questions]);
+
+    //fetch lesson by route param
+    useEffect(() => { dispatch(fetchLesson(params.lessonId)) }, [dispatch, params.lessonId]);
+
+    //sets lessonState to lesson when lesson loads
+    useEffect(() => { setLessonState({ ...lesson }) }, [lesson]);
+
     return (
-        <Page title='Update Lesson'>
+        <Page title='Edit Lesson'>
             <Modal.Dialog>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
@@ -53,6 +75,24 @@ export default function EditLessonPage({ match: { params } }) {
                                 onChange={event => setLessonState({ ...lessonState, title: event.target.value })} />
                         </Form.Group>
                     </Form>
+                    <div className="container">
+                        <ReactMde
+                            onChange={(content) => setLessonState({ ...lessonState, content })}
+                            value={lessonState.content}
+                            generateMarkdownPreview={markdown => Promise.resolve(<ReactMarkdown source={markdown} />)}
+                            emptyPreview={<div />}
+                            onTabChange={(tb) => setTab(tb)}
+                            selectedTab={tab}
+                        />
+                        <Form.Group>
+                            <Form.Label>Questions</Form.Label>
+                            <Form.Control type="text"
+                                as="textarea"
+                                rows="5"
+                                value={questions}
+                                onChange={event => setQuestions(event.target.value)} />
+                        </Form.Group>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" type="submit" onClick={handleUpdateLesson}>Update Lesson</Button>
