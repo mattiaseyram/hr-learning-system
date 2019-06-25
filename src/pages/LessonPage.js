@@ -42,27 +42,25 @@ export default function LessonPage({ match: { params } }) {
     }
 
     // quizzes
-    const quizzes = (lesson.questions ? lesson.questions.map((quiz, i) => {
-        return (
-            <div>
-                <h4>{quiz.question}</h4>
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group>
-                        {quiz.options.map(ans => (
-                            <Form.Check
-                            type="radio"
-                            label={ans}
-                            name={`${i}`}
-                            id={ans}
-                            onChange={handleChange}
-                        />
-                        ))}
-                    </Form.Group>
-                    <input type="submit" value="Submit" />
-                </Form>
-            </div>
+    const quizzes = (lesson.questions ?
+        lesson.questions.map((quiz, i) => {
+            return (
+                <div>
+                    <h4>{quiz.question}</h4>
+                        <Form.Group>
+                            {quiz.options.map(ans => (
+                                <Form.Check
+                                type="radio"
+                                label={ans}
+                                name={`${i}`}
+                                id={ans}
+                                onChange={handleChange}
+                            />
+                            ))}
+                        </Form.Group>
+                </div>
             )
-    }) : null);
+        }) : null);
 
     return (
         <Page title={lesson.title}>
@@ -79,7 +77,10 @@ export default function LessonPage({ match: { params } }) {
             if (quizzes) {
                 <div>
                     <h2>Quiz</h2>
-                    {quizzes}
+                    <Form onSubmit={handleSubmit}>
+                        {quizzes}
+                        <input type="submit" value="Submit" />
+                    </Form>
                 </div>
             }
         </Page>
