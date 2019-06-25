@@ -27,21 +27,21 @@ export default function LessonPage({ match: { params } }) {
     // quizzes
     const quizzes = (lesson.questions ? lesson.questions.map((quiz, i) => {
         return (
-            <Form>
-                {quiz.options.map(ans => (
-                    <div className="radio-buttons">
-                    <h3>{ans.question}</h3>
-                    <label>
-                        <input
+            <div>
+                <h4>{quiz.question}</h4>
+                <Form>
+                    <Form.Group>
+                        {quiz.options.map(ans => (
+                            <Form.Check
                             type="radio"
-                            name="radio-butt"
-                            value={ans}
+                            label={ans}
+                            name={`quiz-group-${i}`}
+                            id={ans}
                         />
-                        {ans}
-                    </label>
-                    </div>
-                ))}
-            </Form>
+                        ))}
+                    </Form.Group>
+                </Form>
+            </div>
             )
     }) : null);
 
@@ -57,8 +57,12 @@ export default function LessonPage({ match: { params } }) {
                 {lesson.title}
             </Jumbotron>
             {lesson.content}
-            <h2>Quizzes</h2>
-            { quizzes }
+            if (quizzes) {
+                <div>
+                    <h2>Quiz</h2>
+                    {quizzes}
+                </div>
+            }
         </Page>
     );
 };
