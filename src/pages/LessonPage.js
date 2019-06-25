@@ -29,9 +29,9 @@ export default function LessonPage({ match: { params } }) {
             <JumboCard>
                 <h1>{lesson.title}</h1>
             </JumboCard>
-            <div className="lesson-content-view">
+            <JumboCard border="secondary">
                 <ReactMarkdown source={lesson.content}/>
-            </div>
+            </JumboCard>
         </Page>
     );
 };

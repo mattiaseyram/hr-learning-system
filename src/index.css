@@ -13,9 +13,3 @@ h1 {
     color: var(--gray-dark);
     background-color: rgba(0, 125, 255, 0.1);
 }
-
-.lesson-content-view {
-    padding: 2vh;
-    border: .2rem solid #ececec;
-    border-radius: 8px 8px;
-}
