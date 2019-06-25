@@ -286,8 +286,32 @@ exports.getManagerMetrics = functions.https.onCall(async (data, context) => {
         //How many totla people are taking them 
         
         for(id in subordinates){
-            
+            curUser = subordinates[id];
+            for(courseId in curUser.courses){
+                if(course[courseId]){
+                    course[courseId].num_subordinates++;
+                    if(curUser.courses[courseId].completed){
+                        course[courseId].num_subordinates_completed++;
+                    }
+                    
+                }else{
+                    var courseIsCompleted = curUser.courses[courseId].completed
+                    var coursesCompleted = 0;
+                    if(curUser.courses[courseId].completed){
+                        courseCompleted++;
+                    }
+                     
+                    course[courseId] = {
+                        "num_subordinates": 1,
+                        "num_subordinates_completed": courseCompleted
+                    }
+                }
+            }
         }
+        user.metrics.courses = courses;
+        await db.collection('users').doc(userId).update({ ...user });
+
+        return { user }
 
     } catch (err) {
         throw new functions.https.HttpsError('unknown', 'Something went wrong calling getManagerMetrics: ' + err.message);
