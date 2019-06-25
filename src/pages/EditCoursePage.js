@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getCourse } from '../redux/selectors';
+import { getCourse, getCourseId } from '../redux/selectors';
 import { updateCourse, fetchCourse } from '../redux/actions';
 //react-bootstrap
 import Modal from 'react-bootstrap/Modal';
@@ -12,34 +12,39 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 //components
 import Page from '../components/Page';
+import ArrayStringFormGroup from '../components/ArrayStringFormGroup';
+
+const emptyCourse = {
+    title: '',
+    description: '',
+    mandatory: false,
+    lessons: []
+};
 
 export default function EditCoursePage({ match: { params } }) {
 
-    const course = useSelector(getCourse) || (
-        {
-            title: '',
-            description: '',
-            mandatory: false
-        }
-    );
-
-    const [ courseState, setCourseState ] = useState(course);
-
     const dispatch = useDispatch();
 
-    //fetch course by route param
-    useEffect(() => { dispatch(fetchCourse(params.courseId)) }, [dispatch, params.courseId]);
+    const course = useSelector(getCourse);
+    const courseId = useSelector(getCourseId);
 
-    //sets courseState to course when course loads
-    useEffect(() => { setCourseState({ ...course }) }, [ course ]);
+    const [courseState, setCourseState] = useState({...emptyCourse, ...course});
 
-    const handleUpdateCourse = () => dispatch(updateCourse(params.courseId, courseState));
+    const [lessons, setLessons] = useState([]);
+
+    const handleUpdateCourse = () => dispatch(updateCourse(courseId, { ...courseState, lessons }));
 
     const handleSubmit = (event) => {
         handleUpdateCourse();
         event.preventDefault();
         event.stopPropagation();
     };
+
+    //fetch course by route param
+    useEffect(() => { dispatch(fetchCourse(params.courseId)); }, [dispatch, params.courseId] );
+
+    //sets courseState to course when course loads
+    useEffect(() => { setCourseState({...emptyCourse, ...course}); }, [course]);
 
     return (
         <Page title='Update Course'>
@@ -63,9 +68,15 @@ export default function EditCoursePage({ match: { params } }) {
                         <Form.Group>
                             <Form.Check type="checkbox"
                                 label="Mandatory"
-                                value={courseState.mandatory}
+                                checked={courseState.mandatory}
                                 onChange={event => setCourseState({ ...courseState, mandatory: event.target.checked })} />
                         </Form.Group>
+                        <ArrayStringFormGroup
+                            label="Lessons"
+                            placeholder="Enter comma separated list of ids"
+                            arrayInput={courseState.lessons}
+                            setArrayInput={(arrayOutput) => setLessons(arrayOutput)}
+                        />
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>

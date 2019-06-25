@@ -8,6 +8,8 @@ import { getLesson } from '../redux/selectors';
 import { fetchLesson } from '../redux/actions';
 //react-bootstrap
 import Jumbotron from 'react-bootstrap/Jumbotron';
+//react-markdown
+import ReactMarkdown from 'react-markdown';
 //components
 import Page from '../components/Page';
 
@@ -24,6 +26,9 @@ export default function LessonPage({ match: { params } }) {
             <Jumbotron>
                 {lesson.title}
             </Jumbotron>
+            <div className="lessonContentView">
+                <ReactMarkdown source={lesson.content}/>
+            </div>
         </Page>
     );
 };

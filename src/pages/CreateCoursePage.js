@@ -12,18 +12,24 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 //components
 import Page from '../components/Page';
+import ArrayStringFormGroup from '../components/ArrayStringFormGroup';
+
+const emptyCourse = {
+    title: '',
+    description: '',
+    mandatory: false,
+    lessons: []
+};
 
 export default function CreateCoursePage() {
 
     const dispatch = useDispatch();
 
-    const [courseState, setCourseState] = useState({
-        title: '',
-        description: '',
-        mandatory: false
-    });
+    const [courseState, setCourseState] = useState({...emptyCourse});
 
-    const handleCreateCourse = () => dispatch(createCourse(courseState));
+    const [lessons, setLessons] = useState([]);
+
+    const handleCreateCourse = () => dispatch(createCourse({ ...courseState, lessons }));
 
     const handleSubmit = (event) => {
         handleCreateCourse();
@@ -53,9 +59,15 @@ export default function CreateCoursePage() {
                         <Form.Group>
                             <Form.Check type="checkbox"
                                 label="Mandatory"
-                                value={courseState.mandatory}
+                                checked={courseState.mandatory}
                                 onChange={event => setCourseState({ ...courseState, mandatory: event.target.checked })} />
                         </Form.Group>
+                        <ArrayStringFormGroup
+                            label="Lessons"
+                            placeholder="Enter comma separated list of ids"
+                            arrayInput={courseState.lessons}
+                            setArrayInput={(arrayOutput) => setLessons(arrayOutput)}
+                        />
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>

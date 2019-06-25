@@ -12,34 +12,30 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 //components
 import Page from '../components/Page';
+import ArrayStringFormGroup from '../components/ArrayStringFormGroup';
+
+const emptyUser = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    role: '',
+    is_admin: false,
+    manages: [],
+    courses: {},
+};
 
 export default function ProfilePage() {
 
     const dispatch = useDispatch();
 
-    const user = useSelector(getUser);
+    const user = useSelector(getUser) || emptyUser;
 
-    //initialize userState to redux store's user
-    const [userState, setUserState] = useState({
-        first_name: '',
-        last_name: '',
-        email: '',
-        password: '',
-        role: '',
-        manages: [],
-        courses: [],
-        ...user
-    });
+    const [userState, setUserState] = useState({...emptyUser, ...user});
 
-    const handleUpdateUser = () => {
+    const [manages, setManages] = useState([]);
 
-        const newUser = {...userState};
-        newUser.manages = newUser.manages
-        .split(',')
-        .map(userId => userId.trim());
-
-        dispatch(updateUser(newUser));
-    };
+    const handleUpdateUser = () => dispatch(updateUser({ ...userState, manages }));
 
     const handleDeleteUser = () => dispatch(deleteUser());
 
@@ -69,12 +65,17 @@ export default function ProfilePage() {
                                 onChange={event => setUserState({ ...userState, last_name: event.target.value })} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Manages</Form.Label>
-                            <Form.Control type="text"
-                                placeholder="Enter comma separated ids"
-                                value={userState.manages}
-                                onChange={event => setUserState({ ...userState, manages: event.target.value })} />
+                            <Form.Check type="checkbox"
+                                label="Administrator"
+                                checked={userState.is_admin}
+                                onChange={event => setUserState({ ...userState, is_admin: event.target.checked })} />
                         </Form.Group>
+                        <ArrayStringFormGroup
+                            label="Manages"
+                            placeholder="Enter comma separated list of ids"
+                            arrayInput={userState.manages}
+                            setArrayInput={(arrayOutput) => setManages(arrayOutput)}
+                        />
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>

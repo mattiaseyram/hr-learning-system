@@ -51,9 +51,8 @@ export const fetchCourse = (id) => async dispatch => {
             });
 
             dispatch(fetchLessons(doc.id));
-        });
 
-        await fetchLessons(id);
+        });
 
     } catch (err) {
         console.error(err);
