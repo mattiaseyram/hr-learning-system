@@ -15,10 +15,15 @@ export default function HomePage() {
 
     const user = useSelector(getUser);
 
+    const name = user ? user.first_name : 'anonymous';
+
     return (
         <Page>
             <JumboCard>
-                <h1>{`Welcome to the HR Learning System, ${user ? user.first_name : 'anonymous'}.`}</h1>
+                <h1>
+                    {`Welcome to the HR Learning System, `}
+                    <span style={{ color: 'var(--gray)' }}>{`${name}.`}</span>
+                </h1>
             </JumboCard>
             <CoursesView />
         </Page>

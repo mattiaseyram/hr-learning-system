@@ -60,7 +60,7 @@ export default function ManageCoursesView() {
                         </NavLink>
                         <Button variant="danger"
                             onClick={() => handleDeleteCourse(courseId)}
-                            className="mr-sm-2" >Delete</Button>
+                            className="mr-2" >Delete</Button>
                     </ButtonToolbar>
                 </Card.Body>
             </Card>

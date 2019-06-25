@@ -36,7 +36,7 @@ export default function ManageLessonsView() {
                         </NavLink>
                         <Button variant="danger"
                             onClick={() => handleDeleteLesson(lessonId)}
-                            className="mr-sm-2" >Delete</Button>
+                            className="mr-2" >Delete</Button>
                     </ButtonToolbar>
                 </Card.Body>
             </Card>
