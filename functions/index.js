@@ -288,22 +288,22 @@ exports.getManagerMetrics = functions.https.onCall(async (data, context) => {
         for(id in subordinates){
             curUser = subordinates[id];
             for(courseId in curUser.courses){
-                if(course[courseId]){
-                    course[courseId].num_subordinates++;
+                if(curUser[courseId]){
+                    courses[courseId].num_subordinates++;
                     if(curUser.courses[courseId].completed){
-                        course[courseId].num_subordinates_completed++;
+                        courses[courseId].num_subordinates_completed++;
                     }
                     
                 }else{
                     var courseIsCompleted = curUser.courses[courseId].completed
                     var coursesCompleted = 0;
                     if(curUser.courses[courseId].completed){
-                        courseCompleted++;
+                        coursesCompleted++;
                     }
                      
-                    course[courseId] = {
+                    courses[courseId] = {
                         "num_subordinates": 1,
-                        "num_subordinates_completed": courseCompleted
+                        "num_subordinates_completed": coursesCompleted
                     }
                 }
             }
