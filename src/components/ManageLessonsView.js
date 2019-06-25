@@ -27,7 +27,7 @@ export default function ManageLessonsView() {
         const lesson = lessons[lessonId];
 
         return (
-            <Card className='m-4' key={i}>
+            <Card className='my-4' key={i}>
                 <Card.Body>
                     <Card.Title>{lesson.title}</Card.Title>
                     <ButtonToolbar>

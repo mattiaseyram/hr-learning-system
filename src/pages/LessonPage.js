@@ -6,12 +6,11 @@ import { } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getLesson } from '../redux/selectors';
 import { fetchLesson } from '../redux/actions';
-//react-bootstrap
-import Jumbotron from 'react-bootstrap/Jumbotron';
 //react-markdown
 import ReactMarkdown from 'react-markdown';
 //components
 import Page from '../components/Page';
+import JumboCard from '../components/JumboCard';
 
 export default function LessonPage({ match: { params } }) {
 
@@ -23,10 +22,10 @@ export default function LessonPage({ match: { params } }) {
 
     return (
         <Page title={lesson.title}>
-            <Jumbotron>
-                {lesson.title}
-            </Jumbotron>
-            <div className="lessonContentView">
+            <JumboCard>
+                <h1>{lesson.title}</h1>
+            </JumboCard>
+            <div className="lesson-content-view">
                 <ReactMarkdown source={lesson.content}/>
             </div>
         </Page>

@@ -49,7 +49,7 @@ export default function ManageCoursesView() {
         const course = courses[courseId];
 
         return (
-            <Card className='m-4' key={i}>
+            <Card className='my-4' key={i}>
                 <Card.Body>
                     <Card.Title>{course.title}</Card.Title>
                     <Card.Text>{course.description}</Card.Text>

@@ -20,7 +20,7 @@ export default function CoursesView() {
 
         const course = courses[key];
         let badge;
-        if (course.Completed){
+        if (course.completed){
             badge=<Badge variant="secondary">Completed</Badge>
         }else{
             badge=<Badge variant="primary">In Progress</Badge>
@@ -36,6 +36,7 @@ export default function CoursesView() {
     return (
         <Fragment>
             <ListGroup>
+                <ListGroup.Item className="list-group-header">Courses</ListGroup.Item>
                 { courseItems }
             </ListGroup>
         </Fragment>
