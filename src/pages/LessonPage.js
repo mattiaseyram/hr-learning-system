@@ -4,8 +4,8 @@ import React, { useEffect } from 'react';
 import { } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getLesson } from '../redux/selectors';
-import { fetchLesson } from '../redux/actions';
+import { getLesson, getCourse } from '../redux/selectors';
+import { fetchCourse, fetchLesson } from '../redux/actions';
 //react-markdown
 import ReactMarkdown from 'react-markdown';
 //components
@@ -14,10 +14,14 @@ import JumboCard from '../components/JumboCard';
 
 export default function LessonPage({ match: { params } }) {
 
-    const lesson = useSelector(getLesson) || {};
-
     const dispatch = useDispatch();
 
+    const course = useSelector(getCourse) || {};
+    const lesson = useSelector(getLesson) || {};
+
+    console.log(course, lesson);
+
+    useEffect(() => { dispatch(fetchCourse(params.courseId)) }, [dispatch, params.courseId]);
     useEffect(() => { dispatch(fetchLesson(params.lessonId)) }, [dispatch, params.lessonId]);
 
     return (
