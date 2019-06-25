@@ -151,12 +151,12 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
 
     try {
 
-        const { userId, lessonId, courseId } = data;
+        var { userId, lessonId, courseId } = data;
         var score = 0;
         var completed = false;
-        const userSnapshot = await db.collection('users').doc(userId).get();
+        var userSnapshot = await db.collection('users').doc(userId).get();
 
-        const lessonSnapshot = await db.collection('lessons').doc(lessonId).get();
+        var lessonSnapshot = await db.collection('lessons').doc(lessonId).get();
 
         let user = userSnapshot.data();
 
@@ -193,27 +193,26 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
         
 
         //Update / write course metric object 
-        metrics = {}
-        let numCourses = 0;
-        let numCoursesCompleted = 0;
+        var numCourses = 0;
+        var numCoursesCompleted = 0;
         for(courseId in user.courses){
             if(user.courses[courseId].completed){
                 numCoursesCompleted++;
             }
             numCourses++;
         }
-        metrics = {
+        let metrics = {
             "num_courses" : numCourses,
             "num_completed_courses":numCoursesCompleted
         };
-        user.metrics = metrics;
+        user.metrics = metrics; 
 
         await db.collection('users').doc(userId).update({ ...user });
 
         return { user };
 
     } catch (err) {
-        throw new functions.https.HttpsError('unknown', 'Something went wrong calling addCourseToUser: ' + err.message);
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling calculate lesson score: ' + err.message);
     }
 
 });
