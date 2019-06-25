@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTitle } from '../redux/selectors';
 import { logoutUser } from '../redux/actions';
 //react-bootstrap
+import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar, { Brand } from 'react-bootstrap/Navbar';
@@ -31,24 +32,28 @@ export default function PageNavbar() {
     //return (...) in a functional component returns the JSX view
     return (
         <Fragment>
-            <Navbar bg="dark" className="justify-content-between mb-4" variant="dark">
+            <Navbar bg="dark" className="d-flex justify-content-between mb-4" variant="dark" expand="lg">
+                <Brand as={NavLink} to="/" className="logo-brand">CFC</Brand>
                 <Brand as={NavLink} to="/">
                     {pageTitle}
                 </Brand>
-                <Nav className="mr-auto">
-                    <NavDropdown title="Actions">
+                <Navbar.Toggle />
+                <Navbar.Collapse >
+                    <Nav className="mr-auto">
+                        <NavDropdown title="Actions">
                             <NavDropdown.Item as={NavLink} to="/courses">Manage Courses</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/lessons">Manage Lessons</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/create/course">Create Course</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/create/lesson">Create Lesson</NavDropdown.Item>
-                    </NavDropdown>
-                </Nav>
-                <Form inline>
-                    <NavDropdown title="Profile">
-                            <NavDropdown.Item as={NavLink} to="/profile">Profile</NavDropdown.Item>
-                            <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
-                    </NavDropdown>
-                </Form>
+                        </NavDropdown>
+                    </Nav>
+                    <Form inline>
+                        <NavLink to="/profile">
+                            <Button variant="outline-light" className="mr-2">Profile</Button>
+                        </NavLink>
+                        <Button variant="outline-warning" onClick={handleLogout}>Logout</Button>
+                    </Form>
+                </Navbar.Collapse>
             </Navbar>
         </Fragment>
     );

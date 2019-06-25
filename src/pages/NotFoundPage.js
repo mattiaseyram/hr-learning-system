@@ -6,18 +6,17 @@ import { } from "react-router-dom";
 import { } from 'react-redux';
 import { } from '../redux/selectors';
 import { } from '../redux/actions';
-//react-bootstrap
-import { Jumbotron } from 'react-bootstrap';
 //components
 import Page from '../components/Page';
+import JumboCard from '../components/JumboCard';
 
 export default function NotFoundPage() {
 
     return (
         <Page>
-            <Jumbotron>
-                <h2>Page not found.</h2>
-            </Jumbotron>
+            <JumboCard>
+                <h1>Page not found.</h1>
+            </JumboCard>
         </Page>
     );
 };

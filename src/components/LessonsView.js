@@ -34,6 +34,7 @@ export default function LessonsView() {
     return (
         <Fragment>
             <ListGroup>
+                <ListGroup.Item className="list-group-header">Lessons</ListGroup.Item>
                 { lessonItems }
             </ListGroup>
         </Fragment>

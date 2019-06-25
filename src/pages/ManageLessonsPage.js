@@ -6,19 +6,19 @@ import { } from "react-router-dom";
 import { } from 'react-redux';
 import { } from '../redux/selectors';
 import { } from '../redux/actions';
-//react-bootstrap
-import Jumbotron from 'react-bootstrap/Jumbotron';
 //components
 import Page from '../components/Page';
 import ManageLessonsView from '../components/ManageLessonsView';
+import JumboCard from '../components/JumboCard';
 
 export default function LessonsPage() {
 
+    const title = 'Manage Lessons';
     return (
-        <Page>
-            <Jumbotron>
-                <h2>Lessons</h2>
-            </Jumbotron>
+        <Page title={title}>
+            <JumboCard>
+                <h1>{title}</h1>
+            </JumboCard>
             <ManageLessonsView />
         </Page>
     );

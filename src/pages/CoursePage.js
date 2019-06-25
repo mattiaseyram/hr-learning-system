@@ -6,12 +6,10 @@ import { } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getCourse } from '../redux/selectors';
 import { fetchCourse } from '../redux/actions';
-//react-bootstrap
-import Jumbotron from 'react-bootstrap/Jumbotron';
-
 //components
 import Page from '../components/Page';
 import LessonsView from '../components/LessonsView';
+import JumboCard from '../components/JumboCard';
 
 export default function CoursePage({ match: { params } }) {
 
@@ -22,9 +20,9 @@ export default function CoursePage({ match: { params } }) {
     useEffect(() => { dispatch(fetchCourse(params.courseId)) }, [dispatch, params.courseId]);
     return (
         <Page title={course.title}>
-            <Jumbotron>
-                {course.title}
-            </Jumbotron>
+            <JumboCard>
+                <h1>{course.title}</h1>
+            </JumboCard>
             <LessonsView />
         </Page>
     );

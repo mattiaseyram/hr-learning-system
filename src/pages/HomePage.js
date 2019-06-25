@@ -6,11 +6,10 @@ import { } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { getUser } from '../redux/selectors';
 import { } from '../redux/actions';
-//react-bootstrap
-import Jumbotron from 'react-bootstrap/Jumbotron';
 //components
 import Page from '../components/Page';
 import CoursesView from '../components/CoursesView';
+import JumboCard from '../components/JumboCard';
 
 export default function HomePage() {
 
@@ -18,10 +17,9 @@ export default function HomePage() {
 
     return (
         <Page>
-            <Jumbotron>
-                <h2>Welcome to the HR Learning System</h2>
-                <p>{user.first_name}</p>
-            </Jumbotron>
+            <JumboCard>
+                <h1>{`Welcome to the HR Learning System, ${user ? user.first_name : 'anonymous'}.`}</h1>
+            </JumboCard>
             <CoursesView />
         </Page>
     );
