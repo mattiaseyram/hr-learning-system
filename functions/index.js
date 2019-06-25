@@ -188,7 +188,26 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
                 courseCompleted = false;
             }
         }
+        //Check if the course has been completed 
         user.courses[courseId].completed = courseCompleted;
+        
+
+        //Update / write course metric object 
+        metrics = {}
+        let numCourses = 0;
+        let numCoursesCompleted = 0;
+        for(courseId in user.courses){
+            if(user.courses[courseId].completed){
+                numCoursesCompleted++;
+            }
+            numCourses++;
+        }
+        metrics = {
+            "num_courses" : numCourses,
+            "num_completed_courses":numCoursesCompleted
+        };
+        user.metrics = metrics;
+
         await db.collection('users').doc(userId).update({ ...user });
 
         return { user };
@@ -230,6 +249,49 @@ exports.getSubordinates = functions.https.onCall(async (data, context) => {
 
     } catch (err) {
         throw new functions.https.HttpsError('unknown', 'Something went wrong calling getSubordinates: ' + err.message);
+    }
+
+});
+
+
+/**
+ * Get Manager Metrics for its subordinates 
+ * data should be a json object  { userId: id }  
+ */
+exports.getManagerMetrics = functions.https.onCall(async (data, context) => {
+
+    try {
+
+        const { userId } = data;
+
+        const userSnapshot = await db.collection('users').doc(userId).get();
+
+        const allUsersSnapshot = await db.collection('users').get();
+
+        let user = userSnapshot.data();
+      
+        let subordinates = {};
+
+        let courses = {}; 
+      
+        if (!user.manages) return { subordinates };
+
+        allUsersSnapshot.forEach(doc => {
+
+            if (user.manages.includes(doc.id)) {
+                subordinates[doc.id] = doc.data();
+            }
+        });
+        //Need to figure out what courses they are taking 
+        // Then figure out how many people have finished them
+        //How many totla people are taking them 
+        
+        for(id in subordinates){
+            
+        }
+
+    } catch (err) {
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling getManagerMetrics: ' + err.message);
     }
 
 });
