@@ -56,7 +56,7 @@ export default function App() {
                     {user && <Route exact path="/courses" component={ManageCoursesPage} />}
                     {user && <Route exact path="/lessons" component={ManageLessonsPage} />}
                     {user && <Route exact path="/courses/:courseId" component={CoursePage} />}
-                    {user && <Route exact path="/lessons/:lessonId" component={LessonPage} />}
+                    {user && <Route exact path="/courses/:courseId/lessons/:lessonId" component={LessonPage} />}
                     {user && <Route exact path="/dataload" component={DataLoadPage} />}
                 </Switch>
             </Router>
