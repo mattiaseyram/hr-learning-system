@@ -20,15 +20,15 @@ export default function LessonsView() {
 
         const lesson = lessons[lessonId];
 
-        let completed = false;
+        let complete = false;
         let badge;
 
         try {
-            completed = user.courses[courseId][lessonId].completed;
+            complete = user.courses[courseId].lessons[lessonId].complete;
         } catch (err) { }
 
 
-        if (completed) {
+        if (complete) {
             badge = <Badge variant="success">Completed</Badge>;
         } else {
             badge = <Badge variant="primary">In Progress</Badge>;

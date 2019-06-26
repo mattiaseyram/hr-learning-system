@@ -152,8 +152,8 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
     try {
 
         const { userId, lessonId, courseId } = data;
-        var score = 0;
-        var completed = false;
+        let score = 0;
+        let complete = false;
         const userSnapshot = await db.collection('users').doc(userId).get();
 
         const lessonSnapshot = await db.collection('lessons').doc(lessonId).get();
@@ -175,13 +175,13 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
             }
         }
         if (score === quiz.length) {
-            completed = true;
+            complete = true;
         }
         
         //Update user with the score 
-        user.courses[courseId].lessons[lessonId].total = score;
-        user.courses[courseId].lessons[lessonId].complete = completed;
-        var courseCompleted = true; 
+        user.courses[courseId].lessons[lessonId].score = score;
+        user.courses[courseId].lessons[lessonId].complete = complete;
+        let courseCompleted = true; 
         for(li in user.courses[courseId].lessons){
 
             if(!user.courses[courseId].lessons[li].complete){
@@ -189,7 +189,7 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
             }
         }
 
-        user.courses[courseId].completed = courseCompleted;
+        user.courses[courseId].complete = courseCompleted;
         await db.collection('users').doc(userId).update({ ...user });
 
         return { user };

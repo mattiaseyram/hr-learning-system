@@ -214,3 +214,29 @@ export const fetchUsers = () => async dispatch => {
     await dispatch(setLoading(false));
 
 }
+
+/**
+ * Calls firebase cloud function to calculate an updated user's lesson quiz score,
+ *  which saves the result back to the user
+ * @param {String} courseId 
+ * @param {String} lessonId 
+ */
+export const calculateQuiz = (courseId, lessonId) => async dispatch => {
+
+    await dispatch(setLoading(true));
+
+    try {
+
+        const user = auth.currentUser;
+        const userId = user.uid;
+
+        await functions.httpsCallable('calculateLessonScore')({ userId, courseId, lessonId });
+
+    } catch (err) {
+        console.error(err);
+        dispatch(setWarning('Something went wrong calculating quiz score, please try again.'));
+    }
+
+    await dispatch(setLoading(false));
+
+}

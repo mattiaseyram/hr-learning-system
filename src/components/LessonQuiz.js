@@ -5,9 +5,10 @@ import { } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, getCourseId, getLesson, getLessonId } from '../redux/selectors';
-import { updateUser } from '../redux/actions';
+import { updateUser, calculateQuiz } from '../redux/actions';
 //react-bootstrap
 import Button from 'react-bootstrap/Button';
+import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 
@@ -31,12 +32,23 @@ export default function LessonQuiz() {
     };
 
     const handleUpdateUser = async () => {
-        let updatedCourses = JSON.parse(JSON.stringify(user.courses)); //deep copy user.courses to prevent errors
-        updatedCourses[courseId].lessons[lessonId].answers = answers;
 
         await dispatch(updateUser({
-            courses: updatedCourses
+            courses: {
+                ...user.courses,
+                [courseId]: {
+                    ...user.courses[courseId],
+                    lessons: {
+                        [lessonId]: {
+                            ...user.courses[courseId].lessons[lessonId],
+                            answers
+                        }
+                    }
+                }
+            }
         }));
+
+        await dispatch(calculateQuiz(courseId, lessonId));
     };
 
     //create quiz questions elements
@@ -60,6 +72,21 @@ export default function LessonQuiz() {
             );
         });
 
+    const getScoreBadge = () => {
+        let score = 0;
+        const total = questions.length;
+
+        try {
+            score = user.courses[courseId].lessons[lessonId].score || 0;
+        } catch (err) { }
+
+        const variant = score === total ? "success" : "secondary";
+
+        return (
+            <Badge pill variant={variant}>{`${score} of ${total} correct`}</Badge>
+        );
+    };
+
     //set user answers on init
     useEffect(() => {
         try {
@@ -71,15 +98,17 @@ export default function LessonQuiz() {
     }, [user, courseId, lessonId, lesson, answers.length]);
 
     return (
-        <Card border="secondary">
+        <Card border="secondary" className="mb-4">
             <Card.Header>Quiz</Card.Header>
             <Card.Body>
                 <Form>
                     {quizQuestions}
                 </Form>
                 <Button variant="primary" onClick={handleUpdateUser}>Submit</Button>
-
             </Card.Body>
+            <Card.Footer>
+                {getScoreBadge()}
+            </Card.Footer>
         </Card>
     );
 }
