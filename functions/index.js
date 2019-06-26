@@ -60,7 +60,7 @@ exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
         return {};
 
     } catch (err) {
-        throw new functions.https.HttpsError('unknown', 'Something went wrong calling addCourseToUser: ' + err.message);
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling addCoursesToUser: ' + err.message);
     }
 
 });
@@ -174,7 +174,7 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
                 score += 1;
             }
         }
-        if (score == lessonAttempt.length) {
+        if (score === quiz.length) {
             completed = true;
         }
         
@@ -184,17 +184,18 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
         var courseCompleted = true; 
         for(li in user.courses[courseId].lessons){
 
-            if(user.courses[courseId].lessons[li].complete == false){
+            if(!user.courses[courseId].lessons[li].complete){
                 courseCompleted = false;
             }
         }
+
         user.courses[courseId].completed = courseCompleted;
         await db.collection('users').doc(userId).update({ ...user });
 
         return { user };
 
     } catch (err) {
-        throw new functions.https.HttpsError('unknown', 'Something went wrong calling addCourseToUser: ' + err.message);
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling calculateLessonScore: ' + err.message);
     }
 
 });

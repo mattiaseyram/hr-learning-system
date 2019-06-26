@@ -9,7 +9,7 @@ import { setLoading, setWarning } from './ui';
  */
 export const loginUser = (email, password) => async dispatch => {
 
-    dispatch(setLoading(true));
+    await dispatch(setLoading(true));
 
     try {
 
@@ -20,7 +20,7 @@ export const loginUser = (email, password) => async dispatch => {
         dispatch(setWarning('Something went wrong signing in, please try again.'));
     }
 
-    dispatch(setLoading(false));
+    await dispatch(setLoading(false));
 };
 
 /**
@@ -32,18 +32,16 @@ export const fetchUser = () => dispatch => {
 
         const unsubscribe = auth.onAuthStateChanged(user => {
 
-            dispatch(setLoading(true));
-
             if (user) {
 
                 db.collection('users').doc(user.uid).onSnapshot(doc => {
-                    
-                    dispatch({
-                        type: SET_USER,
-                        user: doc.data()
-                    });
 
-                    dispatch(fetchUsers());
+                        dispatch({
+                            type: SET_USER,
+                            user: doc.data()
+                        });
+
+                        dispatch(fetchUsers());
 
                 });
 
@@ -53,8 +51,6 @@ export const fetchUser = () => dispatch => {
                     type: SET_USER
                 });
             }
-
-            dispatch(setLoading(false));
 
         });
 
@@ -73,7 +69,7 @@ export const fetchUser = () => dispatch => {
  */
 export const createUser = (userData) => async dispatch => {
 
-    dispatch(setLoading(true));
+    await dispatch(setLoading(true));
 
     try {
 
@@ -91,7 +87,7 @@ export const createUser = (userData) => async dispatch => {
         dispatch(setWarning('Something went wrong creating account, please try again.'));
     }
 
-    dispatch(setLoading(false));
+    await dispatch(setLoading(false));
 };
 
 /**
@@ -100,7 +96,7 @@ export const createUser = (userData) => async dispatch => {
  */
 export const updateUser = (userData) => async dispatch => {
 
-    dispatch(setLoading(true));
+    await dispatch(setLoading(true));
 
     try {
 
@@ -113,7 +109,7 @@ export const updateUser = (userData) => async dispatch => {
         dispatch(setWarning('Something went wrong updating account, please try again.'));
     }
 
-    dispatch(setLoading(false));
+    await dispatch(setLoading(false));
 };
 
 /**
@@ -121,7 +117,7 @@ export const updateUser = (userData) => async dispatch => {
  */
 export const deleteUser = () => async dispatch => {
 
-    dispatch(setLoading(true));
+    await dispatch(setLoading(true));
 
     try {
 
@@ -136,7 +132,7 @@ export const deleteUser = () => async dispatch => {
         dispatch(setWarning('Something went wrong deleting account, please try again.'));
     }
 
-    dispatch(setLoading(false));
+    await dispatch(setLoading(false));
 };
 
 /**
@@ -144,7 +140,7 @@ export const deleteUser = () => async dispatch => {
  */
 export const logoutUser = () => async dispatch => {
 
-    dispatch(setLoading(true));
+    await dispatch(setLoading(true));
 
     try {
 
@@ -159,15 +155,15 @@ export const logoutUser = () => async dispatch => {
         dispatch(setWarning('Something went wrong signing out, please try again.'));
     }
 
-    dispatch(setLoading(false));
+    await dispatch(setLoading(false));
 };
 
 /**
  * Adds course to user
  */
-export const addCoursesToUser = (userIdToAdd,courseIds) => async dispatch => {
+export const addCoursesToUser = (userIdToAdd, courseIds) => async dispatch => {
 
-    dispatch(setLoading(true));
+    await dispatch(setLoading(true));
 
     try {
 
@@ -181,8 +177,8 @@ export const addCoursesToUser = (userIdToAdd,courseIds) => async dispatch => {
         dispatch(setWarning('Something went wrong adding course to user please try again.'));
     }
 
-    dispatch(setLoading(false));
-    
+    await dispatch(setLoading(false));
+
 }
 
 /**
@@ -190,7 +186,7 @@ export const addCoursesToUser = (userIdToAdd,courseIds) => async dispatch => {
  */
 export const fetchUsers = () => async dispatch => {
 
-    dispatch(setLoading(true));
+    await dispatch(setLoading(true));
 
     try {
 
@@ -215,6 +211,6 @@ export const fetchUsers = () => async dispatch => {
         });
     }
 
-    dispatch(setLoading(false));
+    await dispatch(setLoading(false));
 
 }

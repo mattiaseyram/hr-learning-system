@@ -1,5 +1,5 @@
 //react
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 //router
 import { } from "react-router-dom";
 //redux
@@ -11,6 +11,7 @@ import ReactMarkdown from 'react-markdown';
 //components
 import Page from '../components/Page';
 import JumboCard from '../components/JumboCard';
+import LessonQuiz from '../components/LessonQuiz';
 
 export default function LessonPage({ match: { params } }) {
 
@@ -19,8 +20,6 @@ export default function LessonPage({ match: { params } }) {
     const course = useSelector(getCourse) || {};
     const lesson = useSelector(getLesson) || {};
 
-    console.log(course, lesson);
-
     useEffect(() => { dispatch(fetchCourse(params.courseId)) }, [dispatch, params.courseId]);
     useEffect(() => { dispatch(fetchLesson(params.lessonId)) }, [dispatch, params.lessonId]);
 
@@ -28,10 +27,12 @@ export default function LessonPage({ match: { params } }) {
         <Page title={lesson.title}>
             <JumboCard>
                 <h1>{lesson.title}</h1>
+                <h6>{course.title}</h6>
             </JumboCard>
             <JumboCard border="secondary">
                 <ReactMarkdown source={lesson.content}/>
             </JumboCard>
+            {lesson.questions && lesson.questions.length ? <LessonQuiz/> : <Fragment/>}
         </Page>
     );
 };

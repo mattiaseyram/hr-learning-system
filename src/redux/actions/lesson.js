@@ -8,7 +8,7 @@ import { functions, db, auth } from '../../utils/firebase';
  */
 export const createLesson = (lessonData) => async dispatch => {
 
-    dispatch(setLoading(true));
+    await dispatch(setLoading(true));
 
     try {
 
@@ -27,7 +27,7 @@ export const createLesson = (lessonData) => async dispatch => {
         dispatch(setWarning('Something went wrong creating lesson, please try again.'));
     }
 
-    dispatch(setLoading(false));
+    await dispatch(setLoading(false));
 
 }
 
@@ -37,7 +37,7 @@ export const createLesson = (lessonData) => async dispatch => {
  */
 export const fetchLesson = (id) => async dispatch => {
 
-    dispatch(setLoading(true));
+    await dispatch(setLoading(true));
 
     try {
 
@@ -54,7 +54,7 @@ export const fetchLesson = (id) => async dispatch => {
         dispatch(setWarning('Something went wrong fetching lesson, please try again.'));
     }
 
-    dispatch(setLoading(false));
+    await dispatch(setLoading(false));
 
 }
 
@@ -65,7 +65,7 @@ export const fetchLesson = (id) => async dispatch => {
  */
 export const updateLesson = (id, lessonData) => async dispatch => {
 
-    dispatch(setLoading(true));
+    await dispatch(setLoading(true));
 
     try {
 
@@ -76,7 +76,7 @@ export const updateLesson = (id, lessonData) => async dispatch => {
         dispatch(setWarning('Something went wrong updating lesson, please try again.'));
     }
 
-    dispatch(setLoading(false));
+    await dispatch(setLoading(false));
 };
 
 /**
@@ -85,7 +85,7 @@ export const updateLesson = (id, lessonData) => async dispatch => {
  */
 export const deleteLesson = (id) => async dispatch => {
 
-    dispatch(setLoading(true));
+    await dispatch(setLoading(true));
 
     try {
 
@@ -96,7 +96,7 @@ export const deleteLesson = (id) => async dispatch => {
         dispatch(setWarning('Something went wrong deleting lesson, please try again.'));
     }
 
-    dispatch(setLoading(false));
+    await dispatch(setLoading(false));
 
 };
 
@@ -106,7 +106,7 @@ export const deleteLesson = (id) => async dispatch => {
  */
 export const fetchLessons = (courseId = null) => async dispatch => {
 
-    dispatch(setLoading(true));
+    await dispatch(setLoading(true));
 
     dispatch({
         type: SET_LESSONS
@@ -127,6 +127,6 @@ export const fetchLessons = (courseId = null) => async dispatch => {
         dispatch(setWarning('Something went wrong retrieving lessons, please try again.'));
     }
 
-    dispatch(setLoading(false));
+    await dispatch(setLoading(false));
 
 }
