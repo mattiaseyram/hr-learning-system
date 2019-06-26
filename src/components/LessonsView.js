@@ -29,7 +29,7 @@ export default function LessonsView() {
 
 
         if (completed) {
-            badge = <Badge variant="secondary">Completed</Badge>;
+            badge = <Badge variant="success">Completed</Badge>;
         } else {
             badge = <Badge variant="primary">In Progress</Badge>;
         }

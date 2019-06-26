@@ -31,7 +31,7 @@ export default function CoursesView() {
         } catch (err) { }
 
         if (completed) {
-            badge = <Badge variant="secondary">Completed</Badge>;
+            badge = <Badge variant="success">Completed</Badge>;
         } else {
             badge = <Badge variant="primary">In Progress</Badge>;
         }
