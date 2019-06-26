@@ -41,14 +41,27 @@ export default function LessonPage({ match: { params } }) {
         console.log(`current quiz ans: ${quiz_ans}`)
         console.log(`user quiz ans: ${user_ans}`)
         // nested object state update
-        var currentUserAnsProp = {...userState.courses[params.courseId].lessons[params.lessonId].answers}
-        currentUserAnsProp = quiz_ans;
-        setUserState({currentUserAnsProp})
+        setUserState(userState => ({
+            ...userState,
+            courses: {
+                ...userState.courses,
+                [params.courseId]: {
+                    ...userState.courses[params.courseId],
+                    lessons: {
+                        ...userState.courses[params.courseId].lessons,
+                        [params.lessonId]: {
+                            ...userState.courses[params.courseId].lessons[params.lessonId],
+                            answers: quiz_ans
+                        }
+                    }
+                }
+            }
+        }))
         // DEBUG check state updated
-        console.log(currentUserAnsProp)
         console.log(user.courses[params.courseId].lessons[params.lessonId].answers)
         console.log(userState.courses[params.courseId].lessons[params.lessonId].answers)
-        //handleUpdateUser();
+        console.log(userState.courses[params.courseId])
+        handleUpdateUser();
         event.preventDefault();
         event.stopPropagation();
     }
