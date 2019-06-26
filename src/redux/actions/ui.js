@@ -13,10 +13,13 @@ export const setLoading = (loading = false) => ({
  * Toggles the warning modal with given warning string
  * @param {String} warning 
  */
-export const setWarning = (warning = '') => ({
-    type: SET_WARNING,
-    warning
-});
+export const setWarning = (warning = '') => dispatch => {
+    console.warn('WARNING MODAL', warning);
+    return dispatch({
+        type: SET_WARNING,
+        warning
+    });
+};
 
 /**
  * Sets the page title

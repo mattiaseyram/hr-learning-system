@@ -20,16 +20,16 @@ export default function LessonsView() {
 
         const lesson = lessons[lessonId];
 
-        let completed = false;
+        let complete = false;
         let badge;
 
         try {
-            completed = user.courses[courseId][lessonId].completed;
+            complete = user.courses[courseId].lessons[lessonId].complete;
         } catch (err) { }
 
 
-        if (completed) {
-            badge = <Badge variant="secondary">Completed</Badge>;
+        if (complete) {
+            badge = <Badge variant="success">Completed</Badge>;
         } else {
             badge = <Badge variant="primary">In Progress</Badge>;
         }
@@ -39,7 +39,7 @@ export default function LessonsView() {
                 action
                 as={Link}
                 to={`/courses/${courseId}/lessons/${lessonId}`}
-                lessonId={i}
+                key={i}
                 className="d-flex justify-content-between">
                 <div>{lesson.title}</div>
                 <div>{badge}</div>

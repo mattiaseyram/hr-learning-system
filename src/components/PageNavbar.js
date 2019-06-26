@@ -49,9 +49,9 @@ export default function PageNavbar() {
                     </Nav>
                     <Form inline>
                         <NavLink to="/profile">
-                            <Button variant="outline-light" className="my-1 mr-2">Profile</Button>
+                            <Button variant="outline-light" className="my-2 mr-2">Profile</Button>
                         </NavLink>
-                        <Button variant="outline-warning" className="my-1" onClick={handleLogout}>Logout</Button>
+                        <Button variant="outline-warning" className="my-2" onClick={handleLogout}>Logout</Button>
                     </Form>
                 </Navbar.Collapse>
             </Navbar>

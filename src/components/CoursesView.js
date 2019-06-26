@@ -23,15 +23,15 @@ export default function CoursesView() {
 
         const course = courses[courseId];
         
-        let completed = false;
+        let complete = false;
         let badge;
 
         try {
-            completed = user.courses[courseId].completed;
+            complete = user.courses[courseId].complete;
         } catch (err) { }
 
-        if (completed) {
-            badge = <Badge variant="secondary">Completed</Badge>;
+        if (complete) {
+            badge = <Badge variant="success">Completed</Badge>;
         } else {
             badge = <Badge variant="primary">In Progress</Badge>;
         }
