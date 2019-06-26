@@ -39,7 +39,7 @@ export default function LessonsView() {
                 action
                 as={Link}
                 to={`/courses/${courseId}/lessons/${lessonId}`}
-                lessonId={i}
+                key={i}
                 className="d-flex justify-content-between">
                 <div>{lesson.title}</div>
                 <div>{badge}</div>
