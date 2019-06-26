@@ -1,32 +1,48 @@
 //react
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 //router
 import { } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getLesson } from '../redux/selectors';
-import { fetchLesson } from '../redux/actions';
+import { getLesson, getUser, getCourse } from '../redux/selectors';
+import { fetchCourse, fetchLesson, updateUser } from '../redux/actions';
+//react-markdown
+import ReactMarkdown from 'react-markdown';
 //react-bootstrap
-import { Jumbotron, Form } from 'react-bootstrap'
+import { JumboCard, Form } from 'react-bootstrap'
 //components
 import Page from '../components/Page';
 
 export default function LessonPage({ match: { params } }) {
 
-    // storage of quiz answers
-    const quiz_ans = []
-
-    const lesson = useSelector(getLesson) || {};
-
     const dispatch = useDispatch();
 
+    // storage of quiz answers
+    const quiz_ans = [];
+
+    const course = useSelector(getCourse) || {};
+    const lesson = useSelector(getLesson) || {};
+
+    const user = useSelector(getUser);
+
+    useEffect(() => { dispatch(fetchCourse(params.courseId)) }, [dispatch, params.courseId]);
     useEffect(() => { dispatch(fetchLesson(params.lessonId)) }, [dispatch, params.lessonId]);
+
+   
+    const [userState, setUserState] = useState(user);
+    const handleUpdateUser = () => dispatch(updateUser(userState));
 
     // quiz form handler for submit
     const handleSubmit = event => {
         console.log(quiz_ans)
-        // TODO call backend function
-        event.preventDefault()
+        // TODO call backend function (lesson[answers] = quiz_ans)
+        //setUserState({...userState, courses : ???})
+        console.log(`lessonId: ${lessonId}`)
+        //console.log(`currentAnswers: ${currentAnswers}`)
+        console.log(user)
+        //handleUpdateUser();
+        event.preventDefault();
+        event.stopPropagation();
     }
 
     // handles input changes in the form
@@ -59,18 +75,20 @@ export default function LessonPage({ match: { params } }) {
 
     return (
         <Page title={lesson.title}>
-            <Jumbotron>
-                {lesson.title}
-            </Jumbotron>
-            {lesson.content}
+            <JumboCard>
+                <h1>{lesson.title}</h1>
+            </JumboCard>
+            <JumboCard border="secondary">
+                <ReactMarkdown source={lesson.content}/>
+            </JumboCard>
             if (quizzes) {
-                <div>
+                <JumboCard border="secondary">
                     <h2>Quiz</h2>
                     <Form onSubmit={handleSubmit}>
                         {quizzes}
                         <input type="submit" value="Submit" />
                     </Form>
-                </div>
+                </JumboCard> 
             }
         </Page>
     );
