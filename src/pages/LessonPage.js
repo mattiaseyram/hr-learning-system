@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getLesson, getUser, getCourse } from '../redux/selectors';
-import { fetchCourse, fetchLesson, updateUser } from '../redux/actions';
+import { getLesson, getUser } from '../redux/selectors';
+import { fetchLesson, updateUser } from '../redux/actions';
 //react-markdown
 import ReactMarkdown from 'react-markdown';
 //react-bootstrap
@@ -24,7 +24,6 @@ export default function LessonPage({ match: { params } }) {
     const lesson = useSelector(getLesson) || {};
     const user = useSelector(getUser);
 
-    useEffect(() => { dispatch(fetchCourse(params.courseId)) }, [dispatch, params.courseId]);
     useEffect(() => { dispatch(fetchLesson(params.lessonId)) }, [dispatch, params.lessonId]);
 
    
