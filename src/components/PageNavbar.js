@@ -45,6 +45,9 @@ export default function PageNavbar() {
                             <NavDropdown.Item as={NavLink} to="/lessons">Manage Lessons</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/create/course">Create Course</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/create/lesson">Create Lesson</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to="/metrics/user">User Metrics</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to="/metrics/manager">Manager Metrics</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to="/metrics/admin">Admin Metrics</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                     <Form inline>
