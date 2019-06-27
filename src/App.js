@@ -21,6 +21,9 @@ import ManageCoursesPage from './pages/ManageCoursesPage';
 import ManageLessonsPage from './pages/ManageLessonsPage';
 import CoursePage from './pages/CoursePage';
 import LessonPage from './pages/LessonPage';
+import UserMetricsPage from './pages/UserMetricsPage';
+import ManagerMetricsPage from './pages/ManagerMetricsPage';
+import AdminMetricsPage from './pages/AdminMetricsPage';
 import DataLoadPage from './pages/DataLoadPage';
 //components
 import PageNavbar from './components/PageNavbar';
@@ -57,6 +60,9 @@ export default function App() {
                     {user && <Route exact path="/lessons" component={ManageLessonsPage} />}
                     {user && <Route exact path="/courses/:courseId" component={CoursePage} />}
                     {user && <Route exact path="/courses/:courseId/lessons/:lessonId" component={LessonPage} />}
+                    {user && <Route exact path="/metrics/user" component={UserMetricsPage} />}
+                    {user && <Route exact path="/metrics/manager" component={ManagerMetricsPage} />}
+                    {user && <Route exact path="/metrics/admin" component={AdminMetricsPage} />}
                     {user && <Route exact path="/dataload" component={DataLoadPage} />}
                 </Switch>
             </Router>
