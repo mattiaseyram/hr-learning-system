@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getCourse, getCourseId } from '../redux/selectors';
+import { getCourse, getCourseId, getUser } from '../redux/selectors';
 import { updateCourse, fetchCourse } from '../redux/actions';
 //react-bootstrap
 import Modal from 'react-bootstrap/Modal';
@@ -13,6 +13,7 @@ import Button from 'react-bootstrap/Button';
 //components
 import Page from '../components/Page';
 import ArrayStringFormGroup from '../components/ArrayStringFormGroup';
+import NotFoundPage from './NotFoundPage';
 
 const emptyCourse = {
     title: '',
@@ -25,6 +26,7 @@ export default function EditCoursePage({ match: { params } }) {
 
     const dispatch = useDispatch();
 
+    const user = useSelector(getUser);
     const course = useSelector(getCourse);
     const courseId = useSelector(getCourseId);
 
@@ -46,6 +48,8 @@ export default function EditCoursePage({ match: { params } }) {
     //sets courseState to course when course loads
     useEffect(() => { setCourseState({...emptyCourse, ...course}); }, [course]);
 
+    if (!user.is_admin) return (<NotFoundPage/>);
+    
     return (
         <Page title='Update Course'>
             <Modal.Dialog>
