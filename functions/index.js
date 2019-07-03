@@ -77,7 +77,9 @@ exports.getCourses = functions.https.onCall(async (data, context) => {
 
         const userSnapshot = await db.collection('users').doc(userId).get();
 
-        let user = userSnapshot.data();
+        const user = userSnapshot.data();
+
+        const usersSnapshot = all && user && user.is_admin ? await db.collection('users').get() : null;
 
         const coursesSnapshot = await db.collection('courses').get();
 
@@ -88,10 +90,29 @@ exports.getCourses = functions.https.onCall(async (data, context) => {
         coursesSnapshot.forEach(doc => {
 
             if (all || doc.id in user.courses) {
-
                 courses[doc.id] = doc.data();
             }
         })
+
+        if (!usersSnapshot) return { courses };
+
+        Object.keys(courses).forEach(courseId => {
+
+            courses[courseId].num_users = 0;
+            courses[courseId].num_users_completed = 0;
+
+            usersSnapshot.forEach(doc => {
+
+                const user2 = doc.data();
+
+                if (user2 && user2.courses && user2.courses[courseId]) 
+                courses[courseId].num_users += 1;
+
+                if (user2 && user2.courses && user2.courses[courseId] && user2.courses[courseId].complete) 
+                courses[courseId].num_users_completed += 1;
+
+            });
+        });
 
         return { courses };
 

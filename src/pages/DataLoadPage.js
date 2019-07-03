@@ -24,9 +24,9 @@ export default function CreateCoursePage() {
             content: 'This is a lesson.',
             questions: [
                 {
-                    question: 'What is my name?',
-                    answer: 'Daddy',
-                    options: ['Mommy', 'Daddy']
+                    question: 'What class is this?',
+                    answer: 'CS490',
+                    options: ['CS490', 'CS492']
                 }
             ]
         }));
