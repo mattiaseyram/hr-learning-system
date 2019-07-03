@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import { NavLink } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getTitle } from '../redux/selectors';
+import { getTitle, getUser } from '../redux/selectors';
 import { logoutUser } from '../redux/actions';
 //react-bootstrap
 import Button from 'react-bootstrap/Button';
@@ -21,6 +21,7 @@ import Form from 'react-bootstrap/Form';
 export default function PageNavbar() {
 
     //useSelector(selector) connects a selector function to the redux store
+    const user = useSelector(getUser);
     const pageTitle = useSelector(getTitle);
 
     //dispatch (from useDispatch()) is a function we use to connect an action to the redux store
@@ -43,11 +44,11 @@ export default function PageNavbar() {
                         <NavDropdown title="Actions">
                             <NavDropdown.Item as={NavLink} to="/courses">Manage Courses</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/lessons">Manage Lessons</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/create/course">Create Course</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/create/lesson">Create Lesson</NavDropdown.Item>
+                            {user.is_admin && <NavDropdown.Item as={NavLink} to="/create/course">Create Course</NavDropdown.Item>}
+                            {user.is_admin && <NavDropdown.Item as={NavLink} to="/create/lesson">Create Lesson</NavDropdown.Item>}
                             <NavDropdown.Item as={NavLink} to="/metrics/user">User Metrics</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/metrics/manager">Manager Metrics</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/metrics/admin">Admin Metrics</NavDropdown.Item>
+                            {user.is_admin && <NavDropdown.Item as={NavLink} to="/metrics/admin">Admin Metrics</NavDropdown.Item>}
                         </NavDropdown>
                     </Nav>
                     <Form inline>

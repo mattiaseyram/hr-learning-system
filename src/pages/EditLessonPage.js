@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getLesson, getLessonId } from '../redux/selectors';
+import { getLesson, getLessonId, getUser } from '../redux/selectors';
 import { updateLesson, fetchLesson, setWarning } from '../redux/actions';
 //react-bootstrap
 import Modal from 'react-bootstrap/Modal';
@@ -15,6 +15,7 @@ import ReactMde from 'react-mde';
 import ReactMarkdown from 'react-markdown';
 //components
 import Page from '../components/Page';
+import NotFoundPage from './NotFoundPage';
 
 //css
 import 'react-mde/lib/styles/css/react-mde-all.css';
@@ -29,10 +30,11 @@ export default function EditLessonPage({ match: { params } }) {
 
     const dispatch = useDispatch();
 
+    const user = useSelector(getUser);
     const lesson = useSelector(getLesson) || emptyLesson;
     const lessonId = useSelector(getLessonId);
 
-    const [lessonState, setLessonState] = useState({...emptyLesson, ...lesson});
+    const [lessonState, setLessonState] = useState({ ...emptyLesson, ...lesson });
 
     const [questions, setQuestions] = useState({});
 
@@ -62,6 +64,8 @@ export default function EditLessonPage({ match: { params } }) {
 
     //sets lessonState to lesson when lesson loads
     useEffect(() => { setLessonState({ ...lesson }) }, [lesson]);
+
+    if (!user.is_admin) return (<NotFoundPage />);
 
     return (
         <Page title='Edit Lesson'>

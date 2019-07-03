@@ -32,7 +32,7 @@ exports.addCoursesToUser = functions.https.onCall(async (data, context) => {
 
         for (let courseId of courseIds) {
 
-            if ( !(courseId in user.courses)) {
+            if (!(courseId in user.courses)) {
 
                 const courseSnapshot = await db.collection('courses').doc(courseId).get();
 
@@ -74,7 +74,7 @@ exports.getCourses = functions.https.onCall(async (data, context) => {
     try {
 
         const { userId, all = false } = data;
-       
+
         const userSnapshot = await db.collection('users').doc(userId).get();
 
         let user = userSnapshot.data();
@@ -177,14 +177,14 @@ exports.calculateLessonScore = functions.https.onCall(async (data, context) => {
         if (score === quiz.length) {
             complete = true;
         }
-        
+
         //Update user with the score 
         user.courses[courseId].lessons[lessonId].score = score;
         user.courses[courseId].lessons[lessonId].complete = complete;
-        let courseCompleted = true; 
-        for(li in user.courses[courseId].lessons){
+        let courseCompleted = true;
+        for (li in user.courses[courseId].lessons) {
 
-            if(!user.courses[courseId].lessons[li].complete){
+            if (!user.courses[courseId].lessons[li].complete) {
                 courseCompleted = false;
             }
         }
@@ -215,9 +215,9 @@ exports.getSubordinates = functions.https.onCall(async (data, context) => {
         const allUsersSnapshot = await db.collection('users').get();
 
         let user = userSnapshot.data();
-      
+
         let subordinates = {};
-      
+
         if (!user.manages) return { subordinates };
 
         allUsersSnapshot.forEach(doc => {

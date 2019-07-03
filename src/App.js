@@ -52,18 +52,18 @@ export default function App() {
                     {!user && <Route exact path="/signup" component={SignUpPage} />}
                     {user && <Route exact path="/" component={HomePage} />}
                     {user && <Route exact path="/profile" component={ProfilePage} />}
-                    {user && <Route exact path="/create/course" component={CreateCoursePage} />}
-                    {user && <Route exact path="/create/lesson" component={CreateLessonPage} />}
-                    {user && <Route exact path="/edit/courses/:courseId" component={EditCoursePage} />}
-                    {user && <Route exact path="/edit/lessons/:lessonId" component={EditLessonPage} />}
+                    {user && user.is_admin && <Route exact path="/create/course" component={CreateCoursePage} />}
+                    {user && user.is_admin && <Route exact path="/create/lesson" component={CreateLessonPage} />}
+                    {user && user.is_admin && <Route exact path="/edit/courses/:courseId" component={EditCoursePage} />}
+                    {user && user.is_admin && <Route exact path="/edit/lessons/:lessonId" component={EditLessonPage} />}
                     {user && <Route exact path="/courses" component={ManageCoursesPage} />}
                     {user && <Route exact path="/lessons" component={ManageLessonsPage} />}
                     {user && <Route exact path="/courses/:courseId" component={CoursePage} />}
                     {user && <Route exact path="/courses/:courseId/lessons/:lessonId" component={LessonPage} />}
                     {user && <Route exact path="/metrics/user" component={UserMetricsPage} />}
                     {user && <Route exact path="/metrics/manager" component={ManagerMetricsPage} />}
-                    {user && <Route exact path="/metrics/admin" component={AdminMetricsPage} />}
-                    {user && <Route exact path="/dataload" component={DataLoadPage} />}
+                    {user && user.is_admin && <Route exact path="/metrics/admin" component={AdminMetricsPage} />}
+                    {<Route exact path="/dataload" component={DataLoadPage} />}
                 </Switch>
             </Router>
         </div>

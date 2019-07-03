@@ -55,9 +55,11 @@ export default function ManageCoursesView() {
                     <Card.Text>{course.description}</Card.Text>
                     <ButtonToolbar>
                         {getDropdownButton(courseId)}
-                        <NavLink to={`/edit/courses/${courseId}`}>
-                            <Button variant="primary" className="mr-sm-2">Edit</Button>
-                        </NavLink>
+                        {user.is_admin &&
+                            <NavLink to={`/edit/courses/${courseId}`}>
+                                <Button variant="primary" className="mr-sm-2">Edit</Button>
+                            </NavLink>
+                        }
                         <Button variant="danger"
                             onClick={() => handleDeleteCourse(courseId)}
                             className="mr-2" >Delete</Button>
