@@ -38,7 +38,8 @@ export default function UserMetricsPage() {
                 try {
                     if (user.courses[courseId].lessons[lessonId].complete) {
                         const lesson = user.courses[courseId].lessons[lessonId];
-                        return lessonAverage + (lesson.score / lesson.total);
+                        const lessondesc = lessons[lessonId];
+                        return lessonAverage + (lesson.score / lessondesc.questions.length);
                     }
                     else {
                         return lessonAverage;
@@ -65,8 +66,9 @@ export default function UserMetricsPage() {
         if (complete) {
             const courseScore = Object.keys(lessons).reduce((sum, lessonId) => {
                 try {
-                    const lesson = user.courses[courseId].lessons[lessonId]
-                    return sum + ((lesson.score / lesson.total) * 100);
+                    const lesson = user.courses[courseId].lessons[lessonId];
+                    const lessondesc = lessons[lessonId];
+                    return sum + ((lesson.score / lessondesc.questions.length) * 100);
                 } catch (err) {
                     return sum;
                 }
