@@ -11,7 +11,7 @@ import {
   PieChart, Pie, Cell,
 } from 'recharts';
 
-const colors = ['#28a745', '#fff'];
+const colors = ['#38a3c7', '#fff'];
 
 export default function DonutChart({ data = [{ name: "Complete", value: 0 }, { name: "Incomplete", value: 1 }] }) {
 
