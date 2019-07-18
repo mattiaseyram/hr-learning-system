@@ -16,6 +16,6 @@ h1 {
 
 .carousel {
     width: 300px;
-    height: 300px;
+    height: auto;
     margin: auto;
 }
