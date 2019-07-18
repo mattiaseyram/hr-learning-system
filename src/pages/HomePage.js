@@ -10,6 +10,7 @@ import { } from '../redux/actions';
 import Page from '../components/Page';
 import CoursesView from '../components/CoursesView';
 import JumboCard from '../components/JumboCard';
+import HomeCarousel from '../components/HomeCarousel';
 
 export default function HomePage() {
 
@@ -26,6 +27,7 @@ export default function HomePage() {
                 </h1>
             </JumboCard>
             <CoursesView />
+            <HomeCarousel/>
         </Page>
     );
 };
