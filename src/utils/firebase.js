@@ -4,7 +4,7 @@ import 'firebase/functions';
 import 'firebase/firestore';
 import 'firebase/auth';
 
-const local = false;
+const local = true;
 const app = firebase.initializeApp(config);
 
 if (local)
