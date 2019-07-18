@@ -11,6 +11,8 @@ import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
+//components
+import DonutChart from './DonutChart';
 
 export default function LessonQuiz() {
 
@@ -82,8 +84,17 @@ export default function LessonQuiz() {
 
         const variant = score === total ? "success" : "secondary";
 
+        const donutData = [{ name: "Complete", value: score }, { name: "Incomplete", value: total - score }];
+
         return (
-            <Badge pill variant={variant}>{`${score} of ${total} correct`}</Badge>
+
+            <Badge pill variant={variant}>
+                <div className="d-flex justify-content-between align-items-center">
+                    <div className="p-1">{`${score} of ${total} correct`}</div>
+                    <div>{<DonutChart data={donutData} />}</div>
+                </div>
+            </Badge>
+
         );
     };
 
