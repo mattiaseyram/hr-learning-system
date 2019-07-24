@@ -12,6 +12,7 @@ try {
     console.warn('Initializing default firebase admin.');
 }
 
+const auth = admin.auth();
 const db = admin.firestore();
 
 /**
@@ -105,11 +106,11 @@ exports.getCourses = functions.https.onCall(async (data, context) => {
 
                 const user2 = doc.data();
 
-                if (user2 && user2.courses && user2.courses[courseId]) 
-                courses[courseId].num_users += 1;
+                if (user2 && user2.courses && user2.courses[courseId])
+                    courses[courseId].num_users += 1;
 
-                if (user2 && user2.courses && user2.courses[courseId] && user2.courses[courseId].complete) 
-                courses[courseId].num_users_completed += 1;
+                if (user2 && user2.courses && user2.courses[courseId] && user2.courses[courseId].complete)
+                    courses[courseId].num_users_completed += 1;
 
             });
         });
@@ -252,6 +253,83 @@ exports.getSubordinates = functions.https.onCall(async (data, context) => {
 
     } catch (err) {
         throw new functions.https.HttpsError('unknown', 'Something went wrong calling getSubordinates: ' + err.message);
+    }
+
+});
+
+exports.importUsersFromRecruitment = functions.https.onCall(async (data, context) => {
+
+    try {
+
+        const firebase = require('firebase');
+
+        const config = {
+            apiKey: "AIzaSyCNkrsI8P9HH63yxZSDmvAEL4-vu6c8wl0",
+            authDomain: "recruitment-6cae5.firebaseapp.com",
+            databaseURL: "https://recruitment-6cae5.firebaseio.com",
+            projectId: "recruitment-6cae5",
+            storageBucket: "recruitment-6cae5.appspot.com",
+            messagingSenderId: "307067666683",
+            appId: "1:307067666683:web:39e93a69988eacbc"
+        }
+
+        const recruitmentApp = firebase.initializeApp(config, "recruit");
+
+        const employeesRef = recruitmentApp.database().ref('employees');
+
+        const employeesSnapshot = await employeesRef.once('value');
+
+        const employees = employeesSnapshot.val();
+        for (let employee in employees) {
+
+            const data = {
+                id: employee,
+                name: employees[employee].name,
+                email: employees[employee].email,
+                password: 'default',
+                phone: employees[employee].phone,
+                role: employees[employee].role,
+                salary: employees[employee].salary,
+                currently_employed: employees[employee].currently_employed,
+                superior: employees[employee].superior,
+            };
+
+            if (!data || !data.name || !data.email) continue;
+
+            try {
+
+                console.log(data.name);
+
+                const newUser = await admin.auth().createUser({
+                    email: data.email,
+                    emailVerified: true,
+                    password: data.password,
+                    displayName: data.name || 'name',
+                    disabled: false
+                });
+
+                const newUserData = {
+                    first_name: data.name || 'first_name',
+                    last_name: '',
+                    email: data.email,
+                    role: '',
+                    is_admin: false,
+                    manages: [],
+                    courses: {}
+                };
+
+                await db.collection('users').doc(newUser.uid).set({ ...newUserData });
+
+            } catch (err2) {}
+
+        }
+
+        return {
+            numNewUsers: employeesSnapshot.numChildren()
+        };
+
+    } catch (err) {
+        throw new functions.https.HttpsError('unknown', 'Something went wrong calling importUsersFromRecruitment: ' + err.message);
     }
 
 });

@@ -5,7 +5,7 @@ import { } from "react-router-dom";
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../redux/selectors';
-import { updateUser, deleteUser } from '../redux/actions';
+import { updateUser, deleteUser, runUserIntegration } from '../redux/actions';
 //react-bootstrap
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -39,12 +39,14 @@ export default function ProfilePage() {
 
     const handleDeleteUser = () => dispatch(deleteUser());
 
+    const handleRunUserIntegration = () => dispatch(runUserIntegration());
+
     const handleSubmit = (event) => {
         handleUpdateUser();
         event.preventDefault();
         event.stopPropagation();
     };
-
+    
     return (
         <Page title='Profile'>
             <Modal.Dialog>
@@ -81,6 +83,7 @@ export default function ProfilePage() {
                 <Modal.Footer>
                     <Button variant="primary" type="submit" onClick={handleUpdateUser}>Update User</Button>
                     <Button variant="danger" onClick={handleDeleteUser}>Delete User</Button>
+                    {user.is_admin && <Button variant="warning" onClick={handleRunUserIntegration}>Run User Integration</Button>}
                 </Modal.Footer>
             </Modal.Dialog>
         </Page>
