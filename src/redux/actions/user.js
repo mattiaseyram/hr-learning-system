@@ -240,3 +240,24 @@ export const calculateQuiz = (courseId, lessonId) => async dispatch => {
     await dispatch(setLoading(false));
 
 }
+
+export const runUserIntegration = () => async dispatch => {
+
+    await dispatch(setLoading(true));
+
+    try {
+
+        const user = auth.currentUser;
+        const userId = user.uid;
+
+        const result = await functions.httpsCallable('importUsersFromRecruitment')({ userId });
+        const data = result.data;
+        dispatch(setWarning(`${data.numNewUsers} users from external recruiting system added/updated.`));
+
+    } catch (err) {
+        console.error(err);
+        dispatch(setWarning('Something went wrong running user integration, please try again.'));
+    }
+
+    await dispatch(setLoading(false));
+}
