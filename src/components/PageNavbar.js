@@ -12,6 +12,7 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar, { Brand } from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 /**
  * This is the default exported functional component called PageNavbar,
@@ -30,11 +31,45 @@ export default function PageNavbar() {
     //handleLogout wraps the logoutUser() function from actions in dispatch
     const handleLogout = () => dispatch(logoutUser());
 
+    const renderCFCTooltip = props => (
+        <div
+            {...props}
+            style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                padding: '2px 10px',
+                color: 'white',
+                borderRadius: 3,
+                ...props.style,
+            }}
+        >
+            Canadian Fundraising Corporation
+        </div>
+    );
+
+    const renderLogoutTooltip = props => (
+        <div
+            {...props}
+            style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                padding: '2px 10px',
+                color: 'white',
+                borderRadius: 3,
+                ...props.style,
+            }}
+        >
+            This is to logout
+        </div>
+    );
+
     //return (...) in a functional component returns the JSX view
     return (
         <Fragment>
             <Navbar bg="dark" className="d-flex justify-content-between mb-4" variant="dark" expand="lg">
-                <Brand as={NavLink} to="/" className="logo-brand">CFC</Brand>
+            <OverlayTrigger placement="bottom-start"
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={renderCFCTooltip}>
+                    <Brand as={NavLink} to="/" className="logo-brand">CFC</Brand>
+                </OverlayTrigger>
                 <Brand as={NavLink} to="/">
                     {pageTitle}
                 </Brand>
@@ -55,7 +90,11 @@ export default function PageNavbar() {
                         <NavLink to="/profile">
                             <Button variant="outline-light" className="my-2 mr-2">Profile</Button>
                         </NavLink>
-                        <Button variant="outline-warning" className="my-2" onClick={handleLogout}>Logout</Button>
+                        <OverlayTrigger placement="bottom-start"
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={renderLogoutTooltip}>
+                            <Button variant="outline-warning" className="my-2" onClick={handleLogout}>Logout</Button>
+                        </OverlayTrigger>
                     </Form>
                 </Navbar.Collapse>
             </Navbar>
